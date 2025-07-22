@@ -25,7 +25,7 @@ body {
     padding: 10px;
 }
 
-/* НАСТОЯЩИЕ ЛИСИЧКИ ИЗ МАЙНКРАФТА */
+/* РАЗНЫЕ ЛИСИЧКИ ИЗ МАЙНКРАФТА */
 .minecraft-fox {
     width: 24px;
     height: 24px;
@@ -36,19 +36,7 @@ body {
     background-position: center;
     margin: 0 5px;
     vertical-align: middle;
-}
-
-/* КРИПЕРЫ ИЗ МАЙНКРАФТА */
-.minecraft-creeper {
-    width: 24px;
-    height: 24px;
-    display: inline-block;
-    background-image: url("https://www.kindpng.com/picc/m/343-3437096_pixel-art-minecraft-creeper-hd-png-download.png");
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    margin: 0 5px;
-    vertical-align: middle;
+    filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.3));
 }
 
 .container {
@@ -77,6 +65,7 @@ body {
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
+    filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.5));
 }
 
 .container::after {
@@ -86,11 +75,12 @@ body {
     right: 10px;
     width: 32px;
     height: 32px;
-    background-image: url("https://static.wikia.nocookie.net/minecraft_gamepedia/images/7/7f/Fox_JE2_BE2.png");
+    background-image: url("https://i.pinimg.com/originals/0c/9f/1d/0c9f1d6b0e0f8c8f9c8d8f7b9e0f3c2a.png");
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
     transform: scaleX(-1);
+    filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.5));
 }
 
 header {
@@ -103,7 +93,7 @@ header {
     position: relative;
 }
 
-/* Криперы в заголовке */
+/* Лисички в заголовке вместо криперов */
 header::before,
 header::after {
     content: "";
@@ -112,18 +102,20 @@ header::after {
     height: 24px;
     top: 50%;
     transform: translateY(-50%);
-    background-image: url("https://www.kindpng.com/picc/m/343-3437096_pixel-art-minecraft-creeper-hd-png-download.png");
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
+    filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.5));
 }
 
 header::before {
     left: 10px;
+    background-image: url("https://minecraft.wiki/images/2/2b/Fox_%28red%29_JE1_BE2.png");
 }
 
 header::after {
     right: 10px;
+    background-image: url("https://minecraft.wiki/images/3/3c/Fox_%28snow%29_JE1_BE2.png");
 }
 
 header h1 {
@@ -168,6 +160,7 @@ header h1 {
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
+    filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.5));
 }
 
 .actions {
@@ -191,7 +184,7 @@ header h1 {
     background-size: 400% 100%;
 }
 
-/* Криперы на кнопках */
+/* Лисички на кнопках вместо криперов */
 .actions button::before {
     content: "";
     position: absolute;
@@ -200,10 +193,11 @@ header h1 {
     transform: translateY(-50%);
     width: 16px;
     height: 16px;
-    background-image: url("https://www.kindpng.com/picc/m/343-3437096_pixel-art-minecraft-creeper-hd-png-download.png");
+    background-image: url("https://minecraft.wiki/images/2/2b/Fox_%28red%29_JE1_BE2.png");
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
+    filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.5));
 }
 
 .btn-earn {
@@ -218,6 +212,11 @@ header h1 {
     border-color: #f44336;
     color: white;
     text-shadow: 1px 1px 0px #c62828;
+}
+
+/* Особая лисичка для кнопки штрафов */
+.btn-spend::before {
+    background-image: url("https://minecraft.wiki/images/3/3c/Fox_%28snow%29_JE1_BE2.png");
 }
 
 .btn-shop {
@@ -247,7 +246,7 @@ header h1 {
     position: relative;
 }
 
-/* Лисички и криперы в истории */
+/* Разные лисички в истории */
 .history::before,
 .history::after {
     content: "";
@@ -255,22 +254,20 @@ header h1 {
     top: -15px;
     width: 24px;
     height: 24px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.5));
 }
 
 .history::before {
     left: 20px;
     background-image: url("https://static.wikia.nocookie.net/minecraft_gamepedia/images/7/7f/Fox_JE2_BE2.png");
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
 }
 
 .history::after {
     right: 20px;
-    background-image: url("https://www.kindpng.com/picc/m/343-3437096_pixel-art-minecraft-creeper-hd-png-download.png");
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
+    background-image: url("https://minecraft.wiki/images/2/2b/Fox_%28red%29_JE1_BE2.png");
 }
 
 .history h3 {
@@ -304,7 +301,7 @@ header h1 {
     position: relative;
 }
 
-/* Лисичка и крипер в модальных окнах */
+/* Лисички в модальных окнах */
 .modal-content::before,
 .modal-content::after {
     content: "";
@@ -312,22 +309,20 @@ header h1 {
     top: 15px;
     width: 32px;
     height: 32px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.5));
 }
 
 .modal-content::before {
     left: 15px;
     background-image: url("https://static.wikia.nocookie.net/minecraft_gamepedia/images/7/7f/Fox_JE2_BE2.png");
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
 }
 
 .modal-content::after {
     right: 15px;
-    background-image: url("https://www.kindpng.com/picc/m/343-3437096_pixel-art-minecraft-creeper-hd-png-download.png");
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
+    background-image: url("https://minecraft.wiki/images/3/3c/Fox_%28snow%29_JE1_BE2.png");
 }
 
 .modal h3 {
@@ -340,7 +335,7 @@ header h1 {
 /* УВЕЛИЧЕННЫЙ РАЗМЕР ТЕКСТА В ВЫПАДАЮЩИХ МЕНЮ */
 .modal select {
     font-family: 'Press Start 2P', monospace;
-    font-size: 12px; /* Увеличено с 10px */
+    font-size: 12px;
     width: 100%;
     padding: 15px;
     border: 3px solid #666;
@@ -351,8 +346,8 @@ header h1 {
 }
 
 .modal select option {
-    font-size: 12px; /* Увеличено с 10px */
-    padding: 8px; /* Увеличено с 5px */
+    font-size: 12px;
+    padding: 8px;
     line-height: 1.6;
     background: rgba(255, 255, 255, 0.95);
 }
@@ -360,7 +355,7 @@ header h1 {
 .modal select optgroup {
     font-weight: bold;
     background: rgba(76, 175, 80, 0.2);
-    font-size: 12px; /* Увеличено с 10px */
+    font-size: 12px;
     padding: 5px;
 }
 
@@ -390,10 +385,11 @@ header h1 {
     transform: translateY(-50%);
     width: 12px;
     height: 12px;
-    background-image: url("https://static.wikia.nocookie.net/minecraft_gamepedia/images/7/7f/Fox_JE2_BE2.png");
+    background-image: url("https://minecraft.wiki/images/2/2b/Fox_%28red%29_JE1_BE2.png");
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
+    filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.5));
 }
 
 .btn-confirm {
@@ -406,6 +402,11 @@ header h1 {
     background: #f44336;
     border-color: #f44336;
     color: white;
+}
+
+/* Снежная лисичка для кнопки отмены */
+.btn-cancel::before {
+    background-image: url("https://minecraft.wiki/images/3/3c/Fox_%28snow%29_JE1_BE2.png");
 }
 
 .modal-buttons button:hover {
@@ -438,6 +439,7 @@ header h1 {
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
+    filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.5));
 }
 
 .history-item.positive {
@@ -450,14 +452,19 @@ header h1 {
     background: rgba(244, 67, 54, 0.1);
 }
 
-/* Криперы для штрафов */
+/* Снежные лисички для штрафов */
 .history-item.negative::before {
-    background-image: url("https://www.kindpng.com/picc/m/343-3437096_pixel-art-minecraft-creeper-hd-png-download.png");
+    background-image: url("https://minecraft.wiki/images/3/3c/Fox_%28snow%29_JE1_BE2.png");
 }
 
 .history-item.purchase {
     border-left: 4px solid #2196f3;
     background: rgba(33, 150, 243, 0.1);
+}
+
+/* Рыжие лисички для покупок */
+.history-item.purchase::before {
+    background-image: url("https://minecraft.wiki/images/2/2b/Fox_%28red%29_JE1_BE2.png");
 }
 
 .history-text {
@@ -470,63 +477,244 @@ header h1 {
     font-size: 11px;
 }
 
-/* Адаптивность с увеличенным текстом */
+/* УЛУЧШЕННАЯ МОБИЛЬНАЯ АДАПТАЦИЯ */
 @media (max-width: 768px) {
     body {
         font-size: 10px;
         padding: 5px;
+        background-size: 16px 16px, 16px 16px, 32px 32px, 32px 32px, 100% 100%;
     }
     
     .container {
         padding: 15px;
+        border-width: 2px;
+        margin: 5px;
+    }
+    
+    .container::before,
+    .container::after {
+        width: 24px;
+        height: 24px;
+        top: 5px;
+    }
+    
+    .container::before {
+        left: 5px;
+    }
+    
+    .container::after {
+        right: 5px;
+    }
+    
+    header {
+        padding: 10px;
+        margin-bottom: 20px;
     }
     
     header h1 {
-        font-size: 12px;
+        font-size: 10px;
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    header::before,
+    header::after {
+        width: 20px;
+        height: 20px;
+        top: 5px;
+        transform: none;
+    }
+    
+    header::before {
+        left: 5px;
+    }
+    
+    header::after {
+        right: 5px;
     }
     
     .balance {
         gap: 15px;
+        flex-direction: column;
+        align-items: center;
     }
     
     .balance-item {
         font-size: 10px;
         padding: 8px 12px;
+        min-width: 200px;
+        text-align: center;
+    }
+    
+    .balance-item::before {
+        left: -25px;
+        width: 18px;
+        height: 18px;
     }
     
     .actions {
         gap: 10px;
+        flex-direction: column;
+        align-items: center;
     }
     
     .actions button {
         font-size: 10px;
         padding: 12px 15px;
-        min-width: 120px;
+        min-width: 200px;
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .actions button::before {
+        width: 14px;
+        height: 14px;
+        right: 8px;
+    }
+    
+    .history {
+        padding: 15px;
+        margin-top: 20px;
+    }
+    
+    .history::before,
+    .history::after {
+        width: 20px;
+        height: 20px;
+        top: -10px;
     }
     
     .modal-content {
         width: 95%;
         margin: 5% auto;
         padding: 20px;
+        border-width: 2px;
+    }
+    
+    .modal-content::before,
+    .modal-content::after {
+        width: 24px;
+        height: 24px;
+        top: 10px;
+    }
+    
+    .modal-content::before {
+        left: 10px;
+    }
+    
+    .modal-content::after {
+        right: 10px;
+    }
+    
+    .modal h3 {
+        font-size: 11px;
+        margin-bottom: 15px;
     }
     
     .modal select {
-        font-size: 11px; /* Увеличено с 9px */
+        font-size: 11px;
+        padding: 12px;
     }
     
     .modal select option {
-        font-size: 11px; /* Увеличено */
+        font-size: 11px;
         padding: 6px;
     }
     
     .modal select optgroup {
-        font-size: 11px; /* Увеличено */
+        font-size: 11px;
+    }
+    
+    .modal-buttons {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .modal-buttons button {
+        font-size: 10px;
+        padding: 10px 15px;
+        width: 100%;
+    }
+    
+    .modal-buttons button::before {
+        width: 10px;
+        height: 10px;
+        right: 8px;
+    }
+    
+    .history-item {
+        font-size: 9px;
+        padding: 8px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+    
+    .history-item::before {
+        width: 14px;
+        height: 14px;
+        left: 3px;
+        top: 8px;
+    }
+    
+    .history-text {
+        margin-left: 20px;
+        margin-top: 5px;
+    }
+    
+    .history-amount {
+        font-size: 10px;
+        align-self: flex-end;
+    }
+    
+    .minecraft-fox {
+        width: 20px;
+        height: 20px;
     }
 }
 
-/* Анимации для лисичек и криперов */
+/* ЭКСТРА МОБИЛЬНЫЕ УСТРОЙСТВА */
+@media (max-width: 480px) {
+    body {
+        font-size: 9px;
+        padding: 3px;
+    }
+    
+    .container {
+        padding: 10px;
+        margin: 2px;
+    }
+    
+    header h1 {
+        font-size: 9px;
+    }
+    
+    .balance-item,
+    .actions button {
+        font-size: 9px;
+        min-width: 180px;
+    }
+    
+    .modal select {
+        font-size: 10px;
+    }
+    
+    .modal select option,
+    .modal select optgroup {
+        font-size: 10px;
+    }
+    
+    .history-item {
+        font-size: 8px;
+    }
+    
+    .history-amount {
+        font-size: 9px;
+    }
+}
+
+/* Анимации для лисичек */
 .minecraft-fox,
-.minecraft-creeper,
 .container::before,
 .container::after,
 .header::before,
@@ -539,31 +727,34 @@ header h1 {
 .modal-content::after,
 .history-item::before,
 .modal-buttons button::before {
-    animation: minecraftBounce 3s ease-in-out infinite alternate;
+    animation: foxBounce 4s ease-in-out infinite alternate;
 }
 
-@keyframes minecraftBounce {
+@keyframes foxBounce {
     0% { transform: translateY(0px); }
+    25% { transform: translateY(-1px); }
     50% { transform: translateY(-2px); }
+    75% { transform: translateY(-1px); }
     100% { transform: translateY(0px); }
 }
 
-/* Разные задержки анимации для разнообразия */
+/* Разные задержки анимации для разных лисичек */
 .container::after { animation-delay: 0.5s; }
 .header::after { animation-delay: 1s; }
 .history::after { animation-delay: 1.5s; }
 .modal-content::after { animation-delay: 2s; }
-.minecraft-creeper { animation-delay: 0.3s; }
+.balance-item::before { animation-delay: 0.3s; }
+.actions button::before { animation-delay: 0.8s; }
 
-/* Специальные эффекты для криперов (мигание) */
+/* Специальные эффекты для лисичек при наведении */
 .actions button:hover::before,
-.modal-content::after {
-    animation: creeperFlash 1s ease-in-out infinite alternate;
+.modal-buttons button:hover::before {
+    animation: foxExcited 0.5s ease-in-out infinite alternate;
 }
 
-@keyframes creeperFlash {
-    0% { opacity: 1; }
-    100% { opacity: 0.7; }
+@keyframes foxExcited {
+    0% { transform: translateY(-2px) scale(1); }
+    100% { transform: translateY(-4px) scale(1.1); }
 }
 
 /* Эффект пикселизации */
@@ -576,12 +767,8 @@ header h1 {
     image-rendering: pixelated;
 }
 
-/* Дополнительные стили для лучшей видимости изображений */
+/* Дополнительные эффекты для лисичек */
 .minecraft-fox,
-.minecraft-creeper {
-    filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.3));
-}
-
 .container::before,
 .container::after,
 .header::before,
@@ -594,5 +781,18 @@ header h1 {
 .modal-content::after,
 .history-item::before,
 .modal-buttons button::before {
-    filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.5));
+    transition: all 0.3s ease;
+}
+
+/* Особые цвета для разных типов лисичек */
+.history-item.positive::before {
+    filter: drop-shadow(0px 0px 3px #4caf50);
+}
+
+.history-item.negative::before {
+    filter: drop-shadow(0px 0px 3px #f44336);
+}
+
+.history-item.purchase::before {
+    filter: drop-shadow(0px 0px 3px #2196f3);
 }
