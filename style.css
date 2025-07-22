@@ -140,8 +140,8 @@ header {
 
 header h1 {
     font-size: 16px;
-    color: #2e7d32;
-    text-shadow: 1px 1px 0px #fff;
+    color: #FFD700; /* Золотой цвет для заголовка */
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.7); /* Темная тень для контраста с золотом */
     margin-bottom: 15px;
     line-height: 1.4;
 }
