@@ -16,19 +16,18 @@ let isLoading = true;
 let db = null;
 let userId = 'family_child_1'; // ID ребенка
 
-// Динамический импорт Firebase без type="module"
-async function initializeFirebase() {
+// Инициализация Firebase v8
+function initializeFirebase() {
   try {
-    console.log('🔥 Инициализируем Firebase...');
+    console.log('🔥 Инициализируем Firebase v8...');
     
-    // Динамический импорт Firebase модулей
-    const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js');
-    const { getFirestore, doc, setDoc, onSnapshot, updateDoc } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
+    // Инициализируем Firebase приложение
+    firebase.initializeApp(firebaseConfig);
     
-    const app = initializeApp(firebaseConfig);
-    db = getFirestore(app);
+    // Получаем ссылку на Firestore
+    db = firebase.firestore();
     
-    console.log('✅ Firebase инициализирован');
+    console.log('✅ Firebase v8 инициализирован');
     
     // Начинаем слушать изменения данных
     startDataListener();
@@ -46,15 +45,13 @@ async function initializeFirebase() {
 }
 
 // Слушатель изменений данных Firebase
-async function startDataListener() {
+function startDataListener() {
   try {
-    const { doc, onSnapshot, setDoc } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
-    
-    const userDoc = doc(db, 'users', userId);
+    const userDocRef = db.collection('users').doc(userId);
     
     // Слушаем изменения в реальном времени
-    onSnapshot(userDoc, (docSnapshot) => {
-      if (docSnapshot.exists()) {
+    userDocRef.onSnapshot((docSnapshot) => {
+      if (docSnapshot.exists) {
         const data = docSnapshot.data();
         mamcoins = data.mamcoins || 0;
         pavlushi = data.pavlushi || 0;
@@ -70,10 +67,16 @@ async function startDataListener() {
       isLoading = false;
       updateDisplay();
       loadHistory();
+    }, (error) => {
+      console.error('❌ Ошибка подключения к Firebase:', error);
+      loadFromLocalStorage();
+      isLoading = false;
+      updateDisplay();
+      loadHistory();
     });
     
   } catch (error) {
-    console.error('❌ Ошибка подключения к Firebase:', error);
+    console.error('❌ Ошибка настройки слушателя Firebase:', error);
     loadFromLocalStorage();
     isLoading = false;
     updateDisplay();
@@ -82,27 +85,29 @@ async function startDataListener() {
 }
 
 // Создание нового пользователя в Firebase
-async function createNewUser() {
+function createNewUser() {
   try {
-    const { doc, setDoc } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
+    const userDocRef = db.collection('users').doc(userId);
     
-    const userDoc = doc(db, 'users', userId);
-    await setDoc(userDoc, {
+    userDocRef.set({
       mamcoins: 0,
       pavlushi: 0,
       history: [],
-      createdAt: new Date().toISOString(),
-      lastActive: new Date().toISOString(),
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      lastActive: firebase.firestore.FieldValue.serverTimestamp(),
+    }).then(() => {
+      console.log('✅ Новый пользователь создан в Firebase');
+    }).catch((error) => {
+      console.error('❌ Ошибка создания пользователя:', error);
     });
     
-    console.log('✅ Новый пользователь создан в Firebase');
   } catch (error) {
     console.error('❌ Ошибка создания пользователя:', error);
   }
 }
 
 // Сохранение в Firebase
-async function saveToFirebase() {
+function saveToFirebase() {
   if (isLoading || !db) {
     console.log('⏳ Firebase не готов, сохраняем локально');
     saveToLocalStorage();
@@ -110,17 +115,22 @@ async function saveToFirebase() {
   }
   
   try {
-    const { doc, updateDoc } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
+    const userDocRef = db.collection('users').doc(userId);
     
-    const userDoc = doc(db, 'users', userId);
-    await updateDoc(userDoc, {
+    userDocRef.update({
       mamcoins: mamcoins,
       pavlushi: pavlushi,
       history: history,
-      lastActive: new Date().toISOString(),
+      lastActive: firebase.firestore.FieldValue.serverTimestamp(),
+    }).then(() => {
+      console.log(`💾 Сохранено в Firebase: ${mamcoins} мамкоинов, ${pavlushi} павлушей`);
+    }).catch((error) => {
+      console.error('❌ Ошибка сохранения в Firebase:', error);
+      
+      // Fallback на localStorage
+      saveToLocalStorage();
     });
     
-    console.log(`💾 Сохранено в Firebase: ${mamcoins} мамкоинов, ${pavlushi} павлушей`);
   } catch (error) {
     console.error('❌ Ошибка сохранения в Firebase:', error);
     
@@ -396,11 +406,47 @@ window.onclick = function (event) {
 
 // Функции для отладки
 window.mamcoinsDebug = {
-  showData: () => console.log({ mamcoins, pavlushi, history, isLoading, db: !!db }),
-  addMamcoins: (amount) => { mamcoins += amount; updateDisplay(); saveToFirebase(); },
-  addPavlushi: (amount) => { pavlushi += amount; updateDisplay(); saveToFirebase(); },
-  reset: () => { mamcoins = 0; pavlushi = 0; history = []; updateDisplay(); saveToFirebase(); },
-  forceSync: () => saveToFirebase()
+  showData: () => console.log({ 
+    mamcoins, 
+    pavlushi, 
+    history: history.slice(0, 5), // Показываем только последние 5 записей
+    totalHistory: history.length,
+    isLoading, 
+    firebaseConnected: !!db 
+  }),
+  addMamcoins: (amount) => { 
+    mamcoins += amount; 
+    updateDisplay(); 
+    saveToFirebase(); 
+    console.log(`➕ Добавлено ${amount} мамкоинов`);
+  },
+  addPavlushi: (amount) => { 
+    pavlushi += amount; 
+    updateDisplay(); 
+    saveToFirebase(); 
+    console.log(`➕ Добавлено ${amount} павлушей`);
+  },
+  reset: () => { 
+    if (confirm('Точно сбросить все данные?')) {
+      mamcoins = 0; 
+      pavlushi = 0; 
+      history = []; 
+      updateDisplay(); 
+      saveToFirebase();
+      console.log('🔄 Все данные сброшены');
+    }
+  },
+  forceSync: () => {
+    saveToFirebase();
+    console.log('🔄 Принудительная синхронизация');
+  },
+  testFirebase: () => {
+    console.log('🔥 Тестируем Firebase подключение...');
+    console.log('Firebase app:', typeof firebase !== 'undefined' ? '✅ Загружен' : '❌ Не загружен');
+    console.log('Firestore:', db ? '✅ Подключен' : '❌ Не подключен');
+    console.log('User ID:', userId);
+    console.log('Loading state:', isLoading ? 'Загружается...' : 'Готов');
+  }
 };
 
 // Инициализация при загрузке страницы
@@ -409,8 +455,17 @@ document.addEventListener('DOMContentLoaded', function () {
   updateDisplay();
   loadHistory();
   
-  // Инициализируем Firebase
-  initializeFirebase();
+  // Проверяем, что Firebase загружен
+  if (typeof firebase !== 'undefined') {
+    console.log('✅ Firebase SDK загружен');
+    initializeFirebase();
+  } else {
+    console.error('❌ Firebase SDK не загружен, используем localStorage');
+    loadFromLocalStorage();
+    isLoading = false;
+    updateDisplay();
+    loadHistory();
+  }
 });
 
-console.log('🦊 Система мамкоинов с Firebase готова! Команды отладки: window.mamcoinsDebug');
+console.log('🦊 Система мамкоинов с Firebase v8 готова! Команды отладки: window.mamcoinsDebug');
