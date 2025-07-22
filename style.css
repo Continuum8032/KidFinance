@@ -37,18 +37,46 @@ body {
     overflow: hidden;
 }
 
-/* ОДИНАКОВЫЕ ЛИСИЧКИ В УГЛАХ */
+/* CSS ЛИСИЧКИ В УГЛАХ (ОДИНАКОВЫЕ) */
 .container::before,
 .container::after {
     content: '';
     position: absolute;
     width: 48px;
     height: 48px;
-    background-image: url('https://static.wikia.nocookie.net/minecraft_gamepedia/images/7/7f/Fox_JE2_BE2.png');
-    background-size: contain;
-    background-repeat: no-repeat;
     z-index: 10;
     animation: foxBounce 3s ease-in-out infinite;
+    
+    /* Рисуем лисичку CSS-кодом */
+    background: 
+        /* Ушки */
+        linear-gradient(45deg, #ff6b35 0%, #ff6b35 30%, transparent 30%),
+        linear-gradient(-45deg, #ff6b35 0%, #ff6b35 30%, transparent 30%),
+        /* Голова */
+        radial-gradient(circle at center, #ff8c42 40%, transparent 40%),
+        /* Мордочка */
+        radial-gradient(ellipse at center bottom, #fff2e6 25%, transparent 25%),
+        /* Глазки */
+        radial-gradient(circle at 35% 45%, #000 8%, transparent 8%),
+        radial-gradient(circle at 65% 45%, #000 8%, transparent 8%),
+        /* Носик */
+        radial-gradient(circle at center 60%, #000 4%, transparent 4%);
+    
+    background-size: 
+        20px 20px, 20px 20px,
+        40px 40px,
+        30px 15px,
+        3px 3px, 3px 3px,
+        2px 2px;
+        
+    background-position:
+        10px 5px, 18px 5px,
+        center center,
+        center 70%,
+        30% 40%, 70% 40%,
+        center 55%;
+        
+    background-repeat: no-repeat;
 }
 
 .container::before {
@@ -64,6 +92,90 @@ body {
 @keyframes foxBounce {
     0%, 100% { transform: translateY(0px); }
     50% { transform: translateY(-5px); }
+}
+
+/* ЛИСИЧКИ В РАЗНЫХ МЕСТАХ */
+.fox-decoration {
+    position: fixed;
+    width: 32px;
+    height: 32px;
+    z-index: 5;
+    pointer-events: none;
+    
+    /* CSS лисичка поменьше */
+    background: 
+        linear-gradient(45deg, #ff6b35 0%, #ff6b35 35%, transparent 35%),
+        linear-gradient(-45deg, #ff6b35 0%, #ff6b35 35%, transparent 35%),
+        radial-gradient(circle at center, #ff8c42 45%, transparent 45%),
+        radial-gradient(ellipse at center bottom, #fff2e6 30%, transparent 30%),
+        radial-gradient(circle at 35% 45%, #000 10%, transparent 10%),
+        radial-gradient(circle at 65% 45%, #000 10%, transparent 10%),
+        radial-gradient(circle at center 60%, #000 6%, transparent 6%);
+    
+    background-size: 
+        15px 15px, 15px 15px,
+        28px 28px,
+        20px 10px,
+        2px 2px, 2px 2px,
+        2px 2px;
+        
+    background-position:
+        8px 3px, 16px 3px,
+        center center,
+        center 70%,
+        30% 40%, 70% 40%,
+        center 55%;
+        
+    background-repeat: no-repeat;
+    animation: floatFox 4s ease-in-out infinite;
+}
+
+.fox-decoration:nth-child(1) {
+    top: 15%;
+    left: 5%;
+    animation-delay: 0s;
+}
+
+.fox-decoration:nth-child(2) {
+    top: 25%;
+    right: 8%;
+    animation-delay: 1s;
+}
+
+.fox-decoration:nth-child(3) {
+    bottom: 30%;
+    left: 3%;
+    animation-delay: 2s;
+}
+
+.fox-decoration:nth-child(4) {
+    bottom: 20%;
+    right: 5%;
+    animation-delay: 0.5s;
+}
+
+@keyframes floatFox {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    25% { transform: translateY(-10px) rotate(5deg); }
+    75% { transform: translateY(-5px) rotate(-5deg); }
+}
+
+/* Добавляем лисичек в body */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    background: 
+        /* Лисички по углам экрана */
+        radial-gradient(circle 20px at 10% 10%, rgba(255, 107, 53, 0.3) 50%, transparent 50%),
+        radial-gradient(circle 15px at 90% 15%, rgba(255, 140, 66, 0.3) 50%, transparent 50%),
+        radial-gradient(circle 18px at 5% 85%, rgba(255, 107, 53, 0.3) 50%, transparent 50%),
+        radial-gradient(circle 16px at 95% 90%, rgba(255, 140, 66, 0.3) 50%, transparent 50%);
 }
 
 header {
@@ -88,11 +200,34 @@ header h1 {
     display: inline-block;
     width: 24px;
     height: 24px;
-    background-image: url('https://static.wikia.nocookie.net/minecraft_gamepedia/images/7/7f/Fox_JE2_BE2.png');
-    background-size: contain;
-    background-repeat: no-repeat;
     vertical-align: middle;
     margin: 0 5px;
+    
+    /* CSS лисичка в заголовке */
+    background: 
+        linear-gradient(45deg, #ff6b35 0%, #ff6b35 35%, transparent 35%),
+        linear-gradient(-45deg, #ff6b35 0%, #ff6b35 35%, transparent 35%),
+        radial-gradient(circle at center, #ff8c42 45%, transparent 45%),
+        radial-gradient(ellipse at center bottom, #fff2e6 35%, transparent 35%),
+        radial-gradient(circle at 35% 45%, #000 12%, transparent 12%),
+        radial-gradient(circle at 65% 45%, #000 12%, transparent 12%),
+        radial-gradient(circle at center 60%, #000 8%, transparent 8%);
+    
+    background-size: 
+        12px 12px, 12px 12px,
+        20px 20px,
+        15px 8px,
+        2px 2px, 2px 2px,
+        1px 1px;
+        
+    background-position:
+        6px 2px, 12px 2px,
+        center center,
+        center 70%,
+        30% 40%, 70% 40%,
+        center 55%;
+        
+    background-repeat: no-repeat;
 }
 
 .balance {
@@ -341,6 +476,19 @@ header h1 {
         width: 32px;
         height: 32px;
         top: 5px;
+        background-size: 
+            12px 12px, 12px 12px,
+            28px 28px,
+            20px 10px,
+            2px 2px, 2px 2px,
+            1px 1px;
+            
+        background-position:
+            6px 3px, 14px 3px,
+            center center,
+            center 70%,
+            30% 40%, 70% 40%,
+            center 55%;
     }
     
     .container::before {
@@ -349,6 +497,17 @@ header h1 {
     
     .container::after {
         right: 5px;
+    }
+    
+    .fox-decoration {
+        width: 24px;
+        height: 24px;
+        background-size: 
+            10px 10px, 10px 10px,
+            20px 20px,
+            15px 8px,
+            1px 1px, 1px 1px,
+            1px 1px;
     }
     
     header {
@@ -365,6 +524,19 @@ header h1 {
         width: 18px;
         height: 18px;
         margin: 0 3px;
+        background-size: 
+            8px 8px, 8px 8px,
+            15px 15px,
+            12px 6px,
+            1px 1px, 1px 1px,
+            1px 1px;
+            
+        background-position:
+            4px 1px, 10px 1px,
+            center center,
+            center 70%,
+            30% 40%, 70% 40%,
+            center 55%;
     }
     
     .balance {
