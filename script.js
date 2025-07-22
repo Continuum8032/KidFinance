@@ -229,7 +229,7 @@ function loadHistory() {
   }
 
   if (history.length === 0) {
-    historyList.innerHTML = '<div class="history-item">📝 История пуста</div>';
+    historyList.innerHTML = '<div class="history-item">🦊 Лисичка еще ничего не делала</div>';
     return;
   }
 
