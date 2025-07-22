@@ -37,46 +37,19 @@ body {
     overflow: hidden;
 }
 
-/* CSS ЛИСИЧКИ В УГЛАХ (ОДИНАКОВЫЕ) */
+/* ЭМОДЗИ ЛИСИЧКИ В УГЛАХ */
 .container::before,
 .container::after {
-    content: '';
+    content: '🦊';
     position: absolute;
     width: 48px;
     height: 48px;
     z-index: 10;
+    font-size: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     animation: foxBounce 3s ease-in-out infinite;
-    
-    /* Рисуем лисичку CSS-кодом */
-    background: 
-        /* Ушки */
-        linear-gradient(45deg, #ff6b35 0%, #ff6b35 30%, transparent 30%),
-        linear-gradient(-45deg, #ff6b35 0%, #ff6b35 30%, transparent 30%),
-        /* Голова */
-        radial-gradient(circle at center, #ff8c42 40%, transparent 40%),
-        /* Мордочка */
-        radial-gradient(ellipse at center bottom, #fff2e6 25%, transparent 25%),
-        /* Глазки */
-        radial-gradient(circle at 35% 45%, #000 8%, transparent 8%),
-        radial-gradient(circle at 65% 45%, #000 8%, transparent 8%),
-        /* Носик */
-        radial-gradient(circle at center 60%, #000 4%, transparent 4%);
-    
-    background-size: 
-        20px 20px, 20px 20px,
-        40px 40px,
-        30px 15px,
-        3px 3px, 3px 3px,
-        2px 2px;
-        
-    background-position:
-        10px 5px, 18px 5px,
-        center center,
-        center 70%,
-        30% 40%, 70% 40%,
-        center 55%;
-        
-    background-repeat: no-repeat;
 }
 
 .container::before {
@@ -90,44 +63,21 @@ body {
 }
 
 @keyframes foxBounce {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-5px); }
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-5px) rotate(5deg); }
 }
 
-/* ЛИСИЧКИ В РАЗНЫХ МЕСТАХ */
+/* ПЛАВАЮЩИЕ ЛИСИЧКИ ПО ЭКРАНУ */
 .fox-decoration {
     position: fixed;
-    width: 32px;
-    height: 32px;
     z-index: 5;
     pointer-events: none;
-    
-    /* CSS лисичка поменьше */
-    background: 
-        linear-gradient(45deg, #ff6b35 0%, #ff6b35 35%, transparent 35%),
-        linear-gradient(-45deg, #ff6b35 0%, #ff6b35 35%, transparent 35%),
-        radial-gradient(circle at center, #ff8c42 45%, transparent 45%),
-        radial-gradient(ellipse at center bottom, #fff2e6 30%, transparent 30%),
-        radial-gradient(circle at 35% 45%, #000 10%, transparent 10%),
-        radial-gradient(circle at 65% 45%, #000 10%, transparent 10%),
-        radial-gradient(circle at center 60%, #000 6%, transparent 6%);
-    
-    background-size: 
-        15px 15px, 15px 15px,
-        28px 28px,
-        20px 10px,
-        2px 2px, 2px 2px,
-        2px 2px;
-        
-    background-position:
-        8px 3px, 16px 3px,
-        center center,
-        center 70%,
-        30% 40%, 70% 40%,
-        center 55%;
-        
-    background-repeat: no-repeat;
+    font-size: 24px;
     animation: floatFox 4s ease-in-out infinite;
+}
+
+.fox-decoration::before {
+    content: '🦊';
 }
 
 .fox-decoration:nth-child(1) {
@@ -160,9 +110,9 @@ body {
     75% { transform: translateY(-5px) rotate(-5deg); }
 }
 
-/* Добавляем лисичек в body */
+/* ДОБАВЛЯЕМ ЛИСИЧЕК В УГЛЫ ЭКРАНА */
 body::before {
-    content: '';
+    content: '🦊 🦊 🦊 🦊';
     position: fixed;
     top: 0;
     left: 0;
@@ -170,12 +120,12 @@ body::before {
     height: 100%;
     pointer-events: none;
     z-index: 1;
-    background: 
-        /* Лисички по углам экрана */
-        radial-gradient(circle 20px at 10% 10%, rgba(255, 107, 53, 0.3) 50%, transparent 50%),
-        radial-gradient(circle 15px at 90% 15%, rgba(255, 140, 66, 0.3) 50%, transparent 50%),
-        radial-gradient(circle 18px at 5% 85%, rgba(255, 107, 53, 0.3) 50%, transparent 50%),
-        radial-gradient(circle 16px at 95% 90%, rgba(255, 140, 66, 0.3) 50%, transparent 50%);
+    font-size: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 20px;
+    opacity: 0.3;
 }
 
 header {
@@ -198,36 +148,13 @@ header h1 {
 
 .minecraft-fox {
     display: inline-block;
-    width: 24px;
-    height: 24px;
+    font-size: 24px;
     vertical-align: middle;
     margin: 0 5px;
-    
-    /* CSS лисичка в заголовке */
-    background: 
-        linear-gradient(45deg, #ff6b35 0%, #ff6b35 35%, transparent 35%),
-        linear-gradient(-45deg, #ff6b35 0%, #ff6b35 35%, transparent 35%),
-        radial-gradient(circle at center, #ff8c42 45%, transparent 45%),
-        radial-gradient(ellipse at center bottom, #fff2e6 35%, transparent 35%),
-        radial-gradient(circle at 35% 45%, #000 12%, transparent 12%),
-        radial-gradient(circle at 65% 45%, #000 12%, transparent 12%),
-        radial-gradient(circle at center 60%, #000 8%, transparent 8%);
-    
-    background-size: 
-        12px 12px, 12px 12px,
-        20px 20px,
-        15px 8px,
-        2px 2px, 2px 2px,
-        1px 1px;
-        
-    background-position:
-        6px 2px, 12px 2px,
-        center center,
-        center 70%,
-        30% 40%, 70% 40%,
-        center 55%;
-        
-    background-repeat: no-repeat;
+}
+
+.minecraft-fox::before {
+    content: '🦊';
 }
 
 .balance {
@@ -284,6 +211,19 @@ header h1 {
     border-style: inset;
 }
 
+/* ДОБАВЛЯЕМ ЛИСИЧЕК НА КНОПКИ */
+.btn-earn::before {
+    content: '🦊 ';
+}
+
+.btn-spend::before {
+    content: '🦊 ';
+}
+
+.btn-shop::before {
+    content: '🦊 ';
+}
+
 .btn-earn {
     background: #4caf50;
     border-color: #66bb6a;
@@ -318,6 +258,14 @@ header h1 {
     color: #333;
     margin-bottom: 15px;
     text-align: center;
+}
+
+.history h3::before {
+    content: '🦊 ';
+}
+
+.history h3::after {
+    content: ' 🦊';
 }
 
 #history-list {
@@ -394,6 +342,14 @@ header h1 {
     text-shadow: 2px 2px 0px #333;
 }
 
+.modal h3::before {
+    content: '🦊 ';
+}
+
+.modal h3::after {
+    content: ' 🦊';
+}
+
 .modal select {
     font-family: 'Press Start 2P', monospace;
     font-size: 12px;
@@ -453,11 +409,19 @@ header h1 {
     text-shadow: 1px 1px 0px #2e7d32;
 }
 
+.btn-confirm::before {
+    content: '🦊 ';
+}
+
 .btn-cancel {
     background: #f44336;
     border-color: #ef5350;
     color: white;
     text-shadow: 1px 1px 0px #c62828;
+}
+
+.btn-cancel::before {
+    content: '🦊 ';
 }
 
 /* АДАПТИВНОСТЬ ДЛЯ МОБИЛЬНЫХ */
@@ -476,19 +440,7 @@ header h1 {
         width: 32px;
         height: 32px;
         top: 5px;
-        background-size: 
-            12px 12px, 12px 12px,
-            28px 28px,
-            20px 10px,
-            2px 2px, 2px 2px,
-            1px 1px;
-            
-        background-position:
-            6px 3px, 14px 3px,
-            center center,
-            center 70%,
-            30% 40%, 70% 40%,
-            center 55%;
+        font-size: 28px;
     }
     
     .container::before {
@@ -500,14 +452,12 @@ header h1 {
     }
     
     .fox-decoration {
-        width: 24px;
-        height: 24px;
-        background-size: 
-            10px 10px, 10px 10px,
-            20px 20px,
-            15px 8px,
-            1px 1px, 1px 1px,
-            1px 1px;
+        font-size: 18px;
+    }
+    
+    body::before {
+        font-size: 16px;
+        padding: 10px;
     }
     
     header {
@@ -521,22 +471,8 @@ header h1 {
     }
     
     .minecraft-fox {
-        width: 18px;
-        height: 18px;
+        font-size: 18px;
         margin: 0 3px;
-        background-size: 
-            8px 8px, 8px 8px,
-            15px 15px,
-            12px 6px,
-            1px 1px, 1px 1px,
-            1px 1px;
-            
-        background-position:
-            4px 1px, 10px 1px,
-            center center,
-            center 70%,
-            30% 40%, 70% 40%,
-            center 55%;
     }
     
     .balance {
@@ -615,8 +551,7 @@ header h1 {
     }
     
     .minecraft-fox {
-        width: 16px;
-        height: 16px;
+        font-size: 16px;
     }
     
     .actions button {
