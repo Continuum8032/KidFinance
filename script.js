@@ -42,7 +42,7 @@ window.addEventListener('DOMContentLoaded', function () {
 async function loadFromFirebase() {
   try {
     const userDoc = doc(db, 'users', userId);
-    
+
     // Слушаем изменения в реальном времени
     onSnapshot(userDoc, (docSnapshot) => {
       if (docSnapshot.exists()) {
@@ -50,22 +50,21 @@ async function loadFromFirebase() {
         mamcoins = data.mamcoins || 0;
         pavlushi = data.pavlushi || 0;
         history = data.history || [];
-        
+
         console.log(`💰 Загружено: ${mamcoins} мамкоинов, ${pavlushi} павлушей`);
       } else {
         // Создаем новый документ для пользователя
         console.log('👶 Создаем нового пользователя');
         createNewUser();
       }
-      
+
       isLoading = false;
       updateDisplay();
       loadHistory();
     });
-    
   } catch (error) {
     console.error('❌ Ошибка загрузки из Firebase:', error);
-    
+
     // Fallback на localStorage если Firebase не работает
     console.log('📱 Используем локальное хранение');
     loadFromLocalStorage();
@@ -82,7 +81,7 @@ async function createNewUser() {
       pavlushi: 0,
       history: [],
       createdAt: new Date().toISOString(),
-      lastActive: new Date().toISOString()
+      lastActive: new Date().toISOString(),
     });
     console.log('✅ Новый пользователь создан');
   } catch (error) {
@@ -93,21 +92,20 @@ async function createNewUser() {
 // Сохранение данных в Firebase
 async function saveToFirebase() {
   if (isLoading) return;
-  
+
   try {
     const userDoc = doc(db, 'users', userId);
     await updateDoc(userDoc, {
       mamcoins: mamcoins,
       pavlushi: pavlushi,
       history: history,
-      lastActive: new Date().toISOString()
+      lastActive: new Date().toISOString(),
     });
-    
+
     console.log(`💾 Сохранено: ${mamcoins} мамкоинов, ${pavlushi} павлушей`);
-    
   } catch (error) {
     console.error('❌ Ошибка сохранения в Firebase:', error);
-    
+
     // Fallback на localStorage
     saveToLocalStorage();
   }
@@ -118,15 +116,15 @@ function loadFromLocalStorage() {
   const savedMamcoins = localStorage.getItem('mamcoins');
   const savedPavlushi = localStorage.getItem('pavlushi');
   const savedHistory = localStorage.getItem('history');
-  
+
   if (savedMamcoins !== null) {
     mamcoins = parseInt(savedMamcoins);
   }
-  
+
   if (savedPavlushi !== null) {
     pavlushi = parseInt(savedPavlushi);
   }
-  
+
   if (savedHistory) {
     try {
       history = JSON.parse(savedHistory);
@@ -134,7 +132,7 @@ function loadFromLocalStorage() {
       history = [];
     }
   }
-  
+
   updateDisplay();
   loadHistory();
 }
@@ -157,7 +155,7 @@ function convertPavlushi() {
     const newMamcoins = Math.floor(pavlushi / 10);
     mamcoins += newMamcoins;
     pavlushi = pavlushi % 10;
-    
+
     addToHistory(`🔄 Конвертация: ${newMamcoins} мамкоинов из павлушей`, 'earn');
     updateDisplay();
   }
@@ -167,21 +165,21 @@ function convertPavlushi() {
 function addToHistory(text, type = 'earn') {
   const now = new Date();
   const timeStr = now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
-  
+
   const newHistoryItem = {
     text: text,
     time: timeStr,
     type: type,
-    timestamp: now.getTime()
+    timestamp: now.getTime(),
   };
-  
+
   history.unshift(newHistoryItem);
-  
+
   // Ограничиваем историю 50 записями
   if (history.length > 50) {
     history = history.slice(0, 50);
   }
-  
+
   saveToFirebase();
   loadHistory();
 }
@@ -190,20 +188,20 @@ function addToHistory(text, type = 'earn') {
 function loadHistory() {
   const historyList = document.getElementById('history-list');
   if (!historyList) return;
-  
+
   historyList.innerHTML = '';
-  
+
   // Показываем индикатор загрузки
   if (isLoading) {
     historyList.innerHTML = '<div class="history-item">🔄 Загрузка...</div>';
     return;
   }
-  
+
   if (history.length === 0) {
     historyList.innerHTML = '<div class="history-item">📝 История пуста</div>';
     return;
   }
-  
+
   history.forEach(item => {
     const div = document.createElement('div');
     div.className = `history-item ${item.type}`;
@@ -228,14 +226,14 @@ function showShopModal() {
 // Закрыть модальные окна
 function closeModal(modalId) {
   document.getElementById(modalId).style.display = 'none';
-  
+
   // Очистить выбор
   const selectors = {
-    'earnModal': 'earnAction',
-    'spendModal': 'spendAction',
-    'shopModal': 'shopAction'
+    earnModal: 'earnAction',
+    spendModal: 'spendAction',
+    shopModal: 'shopAction',
   };
-  
+
   if (selectors[modalId]) {
     const selectElement = document.getElementById(selectors[modalId]);
     if (selectElement) {
@@ -249,20 +247,20 @@ function confirmEarn() {
   const select = document.getElementById('earnAction');
   const value = parseInt(select.value);
   const text = select.options[select.selectedIndex].text;
-  
+
   if (!value || !text) {
     alert('Выберите действие!');
     return;
   }
-  
+
   // Добавляем павлуши
   pavlushi += value;
-  
+
   // Автоматически конвертируем в мамкоины
   convertPavlushi();
-  
+
   addToHistory(`✅ ${text}`, 'earn');
-  
+
   closeModal('earnModal');
 }
 
@@ -271,12 +269,12 @@ function confirmSpend() {
   const select = document.getElementById('spendAction');
   const value = parseInt(select.value);
   const text = select.options[select.selectedIndex].text;
-  
+
   if (!value || !text) {
     alert('Выберите проступок!');
     return;
   }
-  
+
   // Вычитаем павлуши или мамкоины
   if (value >= 100) { // Это мамкоины (значения 100 и больше)
     const mamcoinsToRemove = Math.floor(value / 10);
@@ -310,9 +308,9 @@ function confirmSpend() {
       }
     }
   }
-  
+
   addToHistory(`❌ ${text}`, 'spend');
-  
+
   closeModal('spendModal');
 }
 
@@ -321,44 +319,44 @@ function confirmShop() {
   const select = document.getElementById('shopAction');
   const value = parseInt(select.value);
   const text = select.options[select.selectedIndex].text;
-  
+
   if (!value || !text) {
     alert('Выберите награду!');
     return;
   }
-  
+
   // Проверяем, достаточно ли мамкоинов
   const mamcoinsNeeded = Math.floor(value / 10);
   const totalMamcoins = mamcoins + Math.floor(pavlushi / 10);
-  
+
   if (totalMamcoins < mamcoinsNeeded) {
     alert(`Недостаточно мамкоинов! Нужно: ${mamcoinsNeeded}, есть: ${totalMamcoins}`);
     return;
   }
-  
+
   // Списываем мамкоины
   const totalPavlushi = (mamcoins * 10) + pavlushi;
   const remainingPavlushi = totalPavlushi - value;
-  
+
   mamcoins = Math.floor(remainingPavlushi / 10);
   pavlushi = remainingPavlushi % 10;
-  
+
   addToHistory(`🛒 Купил: ${text}`, 'shop');
-  
+
   closeModal('shopModal');
 }
 
 // Закрытие модальных окон по клику вне их
-window.onclick = function(event) {
+window.onclick = function (event) {
   const modals = ['earnModal', 'spendModal', 'shopModal'];
-  
+
   modals.forEach(modalId => {
     const modal = document.getElementById(modalId);
     if (event.target === modal) {
       closeModal(modalId);
     }
   });
-}
+};
 
 // Глобальные функции для HTML
 window.showEarnModal = showEarnModal;
