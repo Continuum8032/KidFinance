@@ -1,13 +1,3 @@
-// Конфигурация Firebase
-const firebaseConfig = {
-  apiKey: 'AIzaSyB8i6XUdNv8XdMEtip7mMBZe_f1-6MuawE',
-  authDomain: 'mamcoins-tracker.firebaseapp.com',
-  projectId: 'mamcoins-tracker',
-  storageBucket: 'mamcoins-tracker.firebasestorage.app',
-  messagingSenderId: '655371831130',
-  appId: '1:655371831130:web:1bd473c42b14cb4bd15563',
-};
-
 // Глобальные переменные
 let mamcoins = 0;
 let pavlushi = 0;
@@ -16,214 +6,7 @@ let isLoading = true;
 let db = null;
 let userId = 'family_child_1';
 
-// Инициализация Firebase v8
-function initializeFirebase() {
-  try {
-    console.log('🔥 Инициализируем Firebase v8...');
-    firebase.initializeApp(firebaseConfig);
-    db = firebase.firestore();
-    console.log('✅ Firebase v8 инициализирован');
-    startDataListener();
-  } catch (error) {
-    console.error('❌ Ошибка инициализации Firebase:', error);
-    console.log('📱 Используем localStorage');
-    loadFromLocalStorage();
-    isLoading = false;
-    updateDisplay();
-    loadHistory();
-  }
-}
-
-// Слушатель изменений данных Firebase
-function startDataListener() {
-  try {
-    const userDocRef = db.collection('users').doc(userId);
-    
-    userDocRef.onSnapshot((docSnapshot) => {
-      if (docSnapshot.exists) {
-        const data = docSnapshot.data();
-        mamcoins = data.mamcoins || 0;
-        pavlushi = data.pavlushi || 0;
-        history = data.history || [];
-        
-        console.log(`💰 Загружено из Firebase: ${mamcoins} мамкоинов, ${pavlushi} павлушей`);
-      } else {
-        console.log('👶 Создаем нового пользователя');
-        createNewUser();
-      }
-      
-      isLoading = false;
-      updateDisplay();
-      loadHistory();
-    }, (error) => {
-      console.error('❌ Ошибка подключения к Firebase:', error);
-      loadFromLocalStorage();
-      isLoading = false;
-      updateDisplay();
-      loadHistory();
-    });
-    
-  } catch (error) {
-    console.error('❌ Ошибка настройки слушателя Firebase:', error);
-    loadFromLocalStorage();
-    isLoading = false;
-    updateDisplay();
-    loadHistory();
-  }
-}
-
-// Создание нового пользователя в Firebase
-function createNewUser() {
-  try {
-    const userDocRef = db.collection('users').doc(userId);
-    
-    userDocRef.set({
-      mamcoins: 0,
-      pavlushi: 0,
-      history: [],
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      lastActive: firebase.firestore.FieldValue.serverTimestamp(),
-    }).then(() => {
-      console.log('✅ Новый пользователь создан в Firebase');
-    }).catch((error) => {
-      console.error('❌ Ошибка создания пользователя:', error);
-    });
-    
-  } catch (error) {
-    console.error('❌ Ошибка создания пользователя:', error);
-  }
-}
-
-// Сохранение в Firebase
-function saveToFirebase() {
-  if (isLoading || !db) {
-    console.log('⏳ Firebase не готов, сохраняем локально');
-    saveToLocalStorage();
-    return;
-  }
-  
-  try {
-    const userDocRef = db.collection('users').doc(userId);
-    
-    userDocRef.update({
-      mamcoins: mamcoins,
-      pavlushi: pavlushi,
-      history: history,
-      lastActive: firebase.firestore.FieldValue.serverTimestamp(),
-    }).then(() => {
-      console.log(`💾 Сохранено в Firebase: ${mamcoins} мамкоинов, ${pavlushi} павлушей`);
-    }).catch((error) => {
-      console.error('❌ Ошибка сохранения в Firebase:', error);
-      saveToLocalStorage();
-    });
-    
-  } catch (error) {
-    console.error('❌ Ошибка сохранения в Firebase:', error);
-    saveToLocalStorage();
-  }
-}
-
-// Fallback методы для localStorage
-function loadFromLocalStorage() {
-  const savedMamcoins = localStorage.getItem('mamcoins');
-  const savedPavlushi = localStorage.getItem('pavlushi');
-  const savedHistory = localStorage.getItem('history');
-
-  if (savedMamcoins !== null) {
-    mamcoins = parseInt(savedMamcoins) || 0;
-  }
-
-  if (savedPavlushi !== null) {
-    pavlushi = parseInt(savedPavlushi) || 0;
-  }
-
-  if (savedHistory) {
-    try {
-      history = JSON.parse(savedHistory) || [];
-    } catch (e) {
-      history = [];
-    }
-  }
-
-  console.log(`📱 Загружено из localStorage: ${mamcoins} мамкоинов, ${pavlushi} павлушей`);
-}
-
-function saveToLocalStorage() {
-  localStorage.setItem('mamcoins', mamcoins.toString());
-  localStorage.setItem('pavlushi', pavlushi.toString());
-  localStorage.setItem('history', JSON.stringify(history));
-  
-  console.log(`📱 Сохранено в localStorage: ${mamcoins} мамкоинов, ${pavlushi} павлушей`);
-}
-
-// Обновление отображения
-function updateDisplay() {
-  const mamcoinsEl = document.getElementById('mamcoins');
-  const pavlushiEl = document.getElementById('pavlushi');
-  
-  if (mamcoinsEl) mamcoinsEl.textContent = mamcoins;
-  if (pavlushiEl) pavlushiEl.textContent = pavlushi;
-}
-
-// Конвертация павлушей в мамкоины
-function convertPavlushi() {
-  if (pavlushi >= 10) {
-    const newMamcoins = Math.floor(pavlushi / 10);
-    mamcoins += newMamcoins;
-    pavlushi = pavlushi % 10;
-
-    addToHistory(`🔄 Конвертация: ${newMamcoins} мамкоинов из павлушей`, 'earn');
-  }
-}
-
-// Добавление записи в историю
-function addToHistory(text, type = 'earn') {
-  const now = new Date();
-  const timeStr = now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
-
-  const newHistoryItem = {
-    text: text,
-    time: timeStr,
-    type: type,
-    timestamp: now.getTime(),
-  };
-
-  history.unshift(newHistoryItem);
-
-  if (history.length > 50) {
-    history = history.slice(0, 50);
-  }
-
-  saveToFirebase();
-  loadHistory();
-}
-
-// Загрузка истории
-function loadHistory() {
-  const historyList = document.getElementById('history-list');
-  if (!historyList) return;
-
-  historyList.innerHTML = '';
-  
-  if (isLoading) {
-    historyList.innerHTML = '<div class="history-item">🔄 Загружаем данные из Firebase...</div>';
-    return;
-  }
-
-  if (history.length === 0) {
-    historyList.innerHTML = '<div class="history-item">🦊 Лисичка еще ничего не делала</div>';
-    return;
-  }
-
-  history.forEach(item => {
-    const div = document.createElement('div');
-    div.className = `history-item ${item.type}`;
-    div.innerHTML = `<strong>[${item.time}]</strong> ${item.text}`;
-    historyList.appendChild(div);
-  });
-}
-
-// ГЛОБАЛЬНЫЕ ФУНКЦИИ ДЛЯ HTML onclick
+// ГЛОБАЛЬНЫЕ ФУНКЦИИ ДЛЯ HTML onclick - ОБЪЯВЛЯЕМ СРАЗУ!
 
 function showEarnModal() {
   console.log('🦊 Показываем модальное окно заработка');
@@ -413,6 +196,273 @@ function addShopping() {
   confirmShop();
 }
 
+console.log('🦊 Глобальные функции загружены!');
+
+// Функции для управления статусом синхронизации
+function updateSyncStatus(status, message) {
+  const statusEl = document.getElementById('sync-status');
+  if (!statusEl) return;
+  
+  statusEl.className = `sync-status ${status}`;
+  statusEl.textContent = message;
+}
+
+// Конфигурация Firebase
+const firebaseConfig = {
+  apiKey: 'AIzaSyB8i6XUdNv8XdMEtip7mMBZe_f1-6MuawE',
+  authDomain: 'mamcoins-tracker.firebaseapp.com',
+  projectId: 'mamcoins-tracker',
+  storageBucket: 'mamcoins-tracker.firebasestorage.app',
+  messagingSenderId: '655371831130',
+  appId: '1:655371831130:web:1bd473c42b14cb4bd15563',
+};
+
+// Инициализация Firebase v8
+function initializeFirebase() {
+  updateSyncStatus('syncing', '🔄 Подключаемся к облаку...');
+  
+  try {
+    console.log('🔥 Инициализируем Firebase v8...');
+    firebase.initializeApp(firebaseConfig);
+    db = firebase.firestore();
+    console.log('✅ Firebase v8 инициализирован');
+    
+    // Запускаем синхронизацию с таймаутом
+    startDataListenerWithTimeout();
+    
+  } catch (error) {
+    console.error('❌ Ошибка инициализации Firebase:', error);
+    console.log('📱 Работаем только с localStorage');
+    updateSyncStatus('offline', '📱 Только локально');
+    isLoading = false;
+  }
+}
+
+// Слушатель изменений данных Firebase с таймаутом
+function startDataListenerWithTimeout() {
+  try {
+    const userDocRef = db.collection('users').doc(userId);
+    
+    // Устанавливаем таймаут на подключение к Firebase
+    let syncTimeout = setTimeout(() => {
+      console.log('⏰ Firebase медленный, продолжаем с localStorage');
+      updateSyncStatus('offline', '📱 Медленный интернет');
+      isLoading = false;
+      updateDisplay();
+      loadHistory();
+    }, 3000); // 3 секунды таймаут
+    
+    // Слушаем изменения в реальном времени
+    userDocRef.onSnapshot((docSnapshot) => {
+      // Отменяем таймаут - Firebase загрузился
+      clearTimeout(syncTimeout);
+      
+      if (docSnapshot.exists) {
+        const data = docSnapshot.data();
+        
+        // Проверяем, изменились ли данные
+        const newMamcoins = data.mamcoins || 0;
+        const newPavlushi = data.pavlushi || 0;
+        const newHistory = data.history || [];
+        
+        // Обновляем только если данные изменились
+        if (newMamcoins !== mamcoins || newPavlushi !== pavlushi || 
+            JSON.stringify(newHistory) !== JSON.stringify(history)) {
+          
+          mamcoins = newMamcoins;
+          pavlushi = newPavlushi;
+          history = newHistory;
+          
+          console.log(`💰 Синхронизировано с Firebase: ${mamcoins} мамкоинов, ${pavlushi} павлушей`);
+          
+          // Обновляем localStorage для быстрого доступа в следующий раз
+          saveToLocalStorage();
+          updateDisplay();
+          loadHistory();
+        }
+        
+        updateSyncStatus('synced', '☁️ Синхронизировано');
+        
+      } else {
+        console.log('👶 Создаем нового пользователя');
+        createNewUser();
+        updateSyncStatus('synced', '☁️ Новый профиль создан');
+      }
+      
+      isLoading = false;
+      
+    }, (error) => {
+      clearTimeout(syncTimeout);
+      console.error('❌ Ошибка подключения к Firebase:', error);
+      console.log('📱 Работаем с localStorage');
+      updateSyncStatus('offline', '📱 Нет подключения');
+      isLoading = false;
+      updateDisplay();
+      loadHistory();
+    });
+    
+  } catch (error) {
+    console.error('❌ Ошибка настройки слушателя Firebase:', error);
+    updateSyncStatus('offline', '📱 Ошибка подключения');
+    isLoading = false;
+    updateDisplay();
+    loadHistory();
+  }
+}
+
+// Создание нового пользователя в Firebase (неблокирующее)
+function createNewUser() {
+  try {
+    const userDocRef = db.collection('users').doc(userId);
+    
+    userDocRef.set({
+      mamcoins: mamcoins,
+      pavlushi: pavlushi,
+      history: history,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      lastActive: firebase.firestore.FieldValue.serverTimestamp(),
+    }).then(() => {
+      console.log('✅ Новый пользователь создан в Firebase');
+    }).catch((error) => {
+      console.error('❌ Ошибка создания пользователя:', error);
+    });
+    
+  } catch (error) {
+    console.error('❌ Ошибка создания пользователя:', error);
+  }
+}
+
+// Сохранение в Firebase (неблокирующее)
+function saveToFirebase() {
+  // Всегда сохраняем в localStorage немедленно
+  saveToLocalStorage();
+  
+  if (!db) {
+    console.log('⏳ Firebase недоступен, сохранили только локально');
+    updateSyncStatus('offline', '📱 Сохранено локально');
+    return;
+  }
+  
+  try {
+    const userDocRef = db.collection('users').doc(userId);
+    
+    // Неблокирующее сохранение в фоне
+    userDocRef.update({
+      mamcoins: mamcoins,
+      pavlushi: pavlushi,
+      history: history,
+      lastActive: firebase.firestore.FieldValue.serverTimestamp(),
+    }).then(() => {
+      console.log(`💾 Синхронизировано с Firebase: ${mamcoins} мамкоинов, ${pavlushi} павлушей`);
+      updateSyncStatus('synced', '☁️ Синхронизировано');
+    }).catch((error) => {
+      console.error('❌ Ошибка синхронизации с Firebase:', error);
+      console.log('📱 Данные сохранены локально');
+      updateSyncStatus('offline', '📱 Сохранено локально');
+    });
+    
+  } catch (error) {
+    console.error('❌ Ошибка синхронизации с Firebase:', error);
+    updateSyncStatus('offline', '📱 Ошибка синхронизации');
+  }
+}
+
+// Fallback методы для localStorage
+function loadFromLocalStorage() {
+  const savedMamcoins = localStorage.getItem('mamcoins');
+  const savedPavlushi = localStorage.getItem('pavlushi');
+  const savedHistory = localStorage.getItem('history');
+
+  if (savedMamcoins !== null) {
+    mamcoins = parseInt(savedMamcoins) || 0;
+  }
+
+  if (savedPavlushi !== null) {
+    pavlushi = parseInt(savedPavlushi) || 0;
+  }
+
+  if (savedHistory) {
+    try {
+      history = JSON.parse(savedHistory) || [];
+    } catch (e) {
+      history = [];
+    }
+  }
+
+  console.log(`📱 Загружено из localStorage: ${mamcoins} мамкоинов, ${pavlushi} павлушей`);
+}
+
+function saveToLocalStorage() {
+  localStorage.setItem('mamcoins', mamcoins.toString());
+  localStorage.setItem('pavlushi', pavlushi.toString());
+  localStorage.setItem('history', JSON.stringify(history));
+  
+  console.log(`📱 Сохранено в localStorage: ${mamcoins} мамкоинов, ${pavlushi} павлушей`);
+}
+
+// Обновление отображения
+function updateDisplay() {
+  const mamcoinsEl = document.getElementById('mamcoins');
+  const pavlushiEl = document.getElementById('pavlushi');
+  
+  if (mamcoinsEl) mamcoinsEl.textContent = mamcoins;
+  if (pavlushiEl) pavlushiEl.textContent = pavlushi;
+}
+
+// Конвертация павлушей в мамкоины
+function convertPavlushi() {
+  if (pavlushi >= 10) {
+    const newMamcoins = Math.floor(pavlushi / 10);
+    mamcoins += newMamcoins;
+    pavlushi = pavlushi % 10;
+
+    addToHistory(`🔄 Конвертация: ${newMamcoins} мамкоинов из павлушей`, 'earn');
+  }
+}
+
+// Добавление записи в историю
+function addToHistory(text, type = 'earn') {
+  const now = new Date();
+  const timeStr = now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+
+  const newHistoryItem = {
+    text: text,
+    time: timeStr,
+    type: type,
+    timestamp: now.getTime(),
+  };
+
+  history.unshift(newHistoryItem);
+
+  if (history.length > 50) {
+    history = history.slice(0, 50);
+  }
+
+  saveToFirebase();
+  loadHistory();
+}
+
+// Загрузка истории
+function loadHistory() {
+  const historyList = document.getElementById('history-list');
+  if (!historyList) return;
+
+  historyList.innerHTML = '';
+  
+  // Убираем долгий индикатор загрузки - теперь всё быстро
+  if (history.length === 0) {
+    historyList.innerHTML = '<div class="history-item">🦊 Лисичка еще ничего не делала</div>';
+    return;
+  }
+
+  history.forEach(item => {
+    const div = document.createElement('div');
+    div.className = `history-item ${item.type}`;
+    div.innerHTML = `<strong>[${item.time}]</strong> ${item.text}`;
+    historyList.appendChild(div);
+  });
+}
+
 // Закрытие модальных окон по клику вне их
 window.onclick = function (event) {
   const modals = ['earnModal', 'spendModal', 'shopModal'];
@@ -488,22 +538,30 @@ window.mamcoinsDebug = {
 // Инициализация при загрузке страницы
 document.addEventListener('DOMContentLoaded', function () {
   console.log('🦊 Запускаем систему мамкоинов...');
+  
+  // СНАЧАЛА загружаем из localStorage мгновенно
+  loadFromLocalStorage();
   updateDisplay();
   loadHistory();
+  console.log('📱 Данные из localStorage загружены мгновенно');
+  
+  // Показываем что интерфейс готов
+  isLoading = false;
+  updateSyncStatus('offline', '📱 Локальные данные');
   
   setTimeout(() => {
     window.mamcoinsDebug.testElements();
   }, 100);
   
+  // ПОТОМ пытаемся подключиться к Firebase в фоне
   if (typeof firebase !== 'undefined') {
-    console.log('✅ Firebase SDK загружен');
-    initializeFirebase();
+    console.log('✅ Firebase SDK загружен, начинаем синхронизацию...');
+    setTimeout(() => {
+      initializeFirebase();
+    }, 500); // Даем время интерфейсу отрисоваться
   } else {
-    console.error('❌ Firebase SDK не загружен, используем localStorage');
-    loadFromLocalStorage();
-    isLoading = false;
-    updateDisplay();
-    loadHistory();
+    console.error('❌ Firebase SDK не загружен, работаем только с localStorage');
+    updateSyncStatus('offline', '📱 Только локально');
   }
 });
 
