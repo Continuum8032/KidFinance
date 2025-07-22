@@ -131,8 +131,8 @@ body::before {
 header {
     text-align: center;
     padding: 30px 20px 20px;
-    background: rgba(76, 175, 80, 0.9);
-    border: 3px solid #4caf50;
+    background: rgba(64, 64, 64, 0.9); /* Темно-серый майнкрафтовый фон */
+    border: 3px solid #404040; /* Серая граница */
     border-style: inset;
     margin: 10px;
     position: relative;
@@ -141,7 +141,7 @@ header {
 header h1 {
     font-size: 16px;
     color: #FFD700; /* Золотой цвет для заголовка */
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.7); /* Темная тень для контраста с золотом */
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 2px 2px 4px rgba(0,0,0,0.9); /* Золотое свечение + темная тень */
     margin-bottom: 15px;
     line-height: 1.4;
 }
@@ -163,9 +163,9 @@ header h1 {
     padding: 5px;
     margin: 5px 0;
     border-radius: 10px;
-    background: rgba(255, 255, 255, 0.8);
-    border: 1px solid #ddd;
-    color: #666;
+    background: rgba(255, 255, 255, 0.9); /* Более яркий фон для читаемости */
+    border: 1px solid #ccc;
+    color: #333; /* Темный текст на светлом фоне */
     font-family: 'Press Start 2P', monospace;
 }
 
