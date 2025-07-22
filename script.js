@@ -31,12 +31,28 @@ function updateDisplay() {
     updateHistory();
 }
 
-// Показать модальное окно заработка
+// Конвертация павлушей в мамкоины
+function convertCoins() {
+    if (userData.pavlushi >= 10) {
+        userData.mamcoins += Math.floor(userData.pavlushi / 10);
+        userData.pavlushi = userData.pavlushi % 10;
+    }
+}
+
+// Показать модальные окна
 function showEarnModal() {
     document.getElementById('earnModal').style.display = 'block';
 }
 
-// Закрыть модальное окно
+function showSpendModal() {
+    document.getElementById('spendModal').style.display = 'block';
+}
+
+function showShopModal() {
+    document.getElementById('shopModal').style.display = 'block';
+}
+
+// Закрыть все модальные окна
 function closeModal() {
     document.querySelectorAll('.modal').forEach(modal => {
         modal.style.display = 'none';
@@ -57,23 +73,110 @@ function addEarning() {
             userData.pavlushi += value;
         }
         
-        // Конвертация павлушей в мамкоины
-        if (userData.pavlushi >= 10) {
-            userData.mamcoins += Math.floor(userData.pavlushi / 10);
-            userData.pavlushi = userData.pavlushi % 10;
-        }
+        convertCoins();
         
-        // Добавляем в историю
         userData.history.unshift({
-            date: new Date().toLocaleDateString(),
+            date: new Date().toLocaleString(),
             action: text,
-            type: 'earn',
-            value: value
+            type: 'earn'
         });
         
         saveData();
         updateDisplay();
         closeModal();
+        
+        // Сброс выбора
+        select.value = '';
+    } else {
+        alert('Выбери действие!');
+    }
+}
+
+// Добавить штраф
+function addSpending() {
+    const select = document.getElementById('spendAction');
+    const value = parseInt(select.value);
+    const text = select.options[select.selectedIndex].text;
+    
+    if (value) {
+        // Вычитаем штраф
+        if (value >= 10) {
+            let mamcoinsToRemove = Math.floor(value / 10);
+            let pavlushiToRemove = value % 10;
+            
+            // Если не хватает павлушей, конвертируем мамкоин
+            if (userData.pavlushi < pavlushiToRemove) {
+                if (userData.mamcoins > 0) {
+                    userData.mamcoins--;
+                    userData.pavlushi += 10;
+                }
+            }
+            
+            userData.pavlushi -= pavlushiToRemove;
+            userData.mamcoins -= mamcoinsToRemove;
+        } else {
+            // Если не хватает павлушей, конвертируем мамкоин
+            if (userData.pavlushi < value) {
+                if (userData.mamcoins > 0) {
+                    userData.mamcoins--;
+                    userData.pavlushi += 10;
+                }
+            }
+            userData.pavlushi -= value;
+        }
+        
+        // Не допускаем отрицательные значения
+        if (userData.mamcoins < 0) userData.mamcoins = 0;
+        if (userData.pavlushi < 0) userData.pavlushi = 0;
+        
+        userData.history.unshift({
+            date: new Date().toLocaleString(),
+            action: text,
+            type: 'spend'
+        });
+        
+        saveData();
+        updateDisplay();
+        closeModal();
+        
+        select.value = '';
+    } else {
+        alert('Выбери проступок!');
+    }
+}
+
+// Купить в магазине
+function buyItem() {
+    const select = document.getElementById('shopAction');
+    const value = parseInt(select.value);
+    const text = select.options[select.selectedIndex].text;
+    
+    if (value) {
+        const totalPavlushi = userData.mamcoins * 10 + userData.pavlushi;
+        
+        if (totalPavlushi >= value) {
+            // Вычитаем стоимость
+            let remainingPavlushi = totalPavlushi - value;
+            userData.mamcoins = Math.floor(remainingPavlushi / 10);
+            userData.pavlushi = remainingPavlushi % 10;
+            
+            userData.history.unshift({
+                date: new Date().toLocaleString(),
+                action: `🛒 Купил: ${text}`,
+                type: 'buy'
+            });
+            
+            saveData();
+            updateDisplay();
+            closeModal();
+            
+            alert(`🎉 Поздравляю! Ты купил: ${text.split('(')[0]}!`);
+            select.value = '';
+        } else {
+            alert('😞 Не хватает мамкоинов! Нужно еще заработать.');
+        }
+    } else {
+        alert('Выбери что хочешь купить!');
     }
 }
 
@@ -82,12 +185,18 @@ function updateHistory() {
     const historyDiv = document.getElementById('history-list');
     historyDiv.innerHTML = '';
     
-    userData.history.slice(0, 10).forEach(item => {
+    userData.history.slice(0, 15).forEach(item => {
         const div = document.createElement('div');
         div.className = `history-item ${item.type}`;
+        
+        let emoji = '';
+        if (item.type === 'earn') emoji = '✅';
+        if (item.type === 'spend') emoji = '❌';
+        if (item.type === 'buy') emoji = '🛒';
+        
         div.innerHTML = `
             <span class="date">${item.date}</span>
-            <span class="action">${item.action}</span>
+            <span class="action">${emoji} ${item.action}</span>
         `;
         historyDiv.appendChild(div);
     });
