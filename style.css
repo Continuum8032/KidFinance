@@ -220,20 +220,20 @@ header h1 {
     text-shadow: 1px 1px 2px rgba(255,255,255,0.8); /* Белая тень для контраста на желтом фоне */
 }
 
-/* Специальные стили для павлушей - фиолетовый фон */
+/* Специальные стили для павлушей - золотой фон как у мамкоинов */
 .balance-pavlushi {
-    background: rgba(138, 43, 226, 0.8) !important; /* Фиолетовый фон для павлушей */
-    border: 2px solid #8B2CCE !important; /* Фиолетовая граница */
-    color: #fff !important; /* Белый текст на фиолетовом фоне */
+    background: rgba(255, 235, 59, 0.9) !important; /* Золотой фон как у мамкоинов */
+    border: 2px solid #fbc02d !important; /* Золотая граница */
+    color: #000 !important; /* Черный текст на золотом фоне */
 }
 
 .balance-pavlushi span {
-    color: #fff !important; /* Все тексты белые в блоке павлушей */
+    color: #000 !important; /* Все тексты черные в блоке павлушей */
 }
 
 .balance-pavlushi span:last-child {
-    color: #fff !important; /* Белые цифры на фиолетовом фоне */
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.8) !important; /* Темная тень для контраста */
+    color: #000 !important; /* Черные цифры на золотом фоне */
+    text-shadow: 1px 1px 2px rgba(255,255,255,0.8) !important; /* Белая тень для контраста */
 }
 
 .actions {
@@ -547,14 +547,14 @@ header h1 {
         text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
     }
     
-    /* Мобильные стили для павлушей - фиолетовый фон */
+    /* Мобильные стили для павлушей - золотой фон */
     .balance-pavlushi span {
-        color: #fff !important; /* Белый текст в мобильной версии */
+        color: #000 !important; /* Черный текст в мобильной версии */
     }
     
     .balance-pavlushi span:last-child {
-        color: #fff !important; /* Белые цифры в мобильной версии */
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.8) !important; /* Темная тень */
+        color: #000 !important; /* Черные цифры в мобильной версии */
+        text-shadow: 1px 1px 2px rgba(255,255,255,0.8) !important; /* Белая тень для контраста */
     }
     
     .actions {
