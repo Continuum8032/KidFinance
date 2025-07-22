@@ -146,16 +146,16 @@ function loadFromLocalStorage() {
   const savedHistory = localStorage.getItem('history');
 
   if (savedMamcoins !== null) {
-    mamcoins = parseInt(savedMamcoins);
+    mamcoins = parseInt(savedMamcoins) || 0;
   }
 
   if (savedPavlushi !== null) {
-    pavlushi = parseInt(savedPavlushi);
+    pavlushi = parseInt(savedPavlushi) || 0;
   }
 
   if (savedHistory) {
     try {
-      history = JSON.parse(savedHistory);
+      history = JSON.parse(savedHistory) || [];
     } catch (e) {
       history = [];
     }
@@ -246,46 +246,77 @@ function loadHistory() {
 // Показать модальные окна
 function showEarnModal() {
   console.log('🦊 Показываем модальное окно заработка');
-  document.getElementById('earnModal').style.display = 'block';
+  const modal = document.getElementById('earnModal');
+  if (modal) {
+    modal.style.display = 'block';
+  } else {
+    console.error('❌ Модальное окно earnModal не найдено');
+  }
 }
 
 function showSpendModal() {
   console.log('🦊 Показываем модальное окно штрафа');
-  document.getElementById('spendModal').style.display = 'block';
+  const modal = document.getElementById('spendModal');
+  if (modal) {
+    modal.style.display = 'block';
+  } else {
+    console.error('❌ Модальное окно spendModal не найдено');
+  }
 }
 
 function showShopModal() {
   console.log('🦊 Показываем модальное окно магазина');
-  document.getElementById('shopModal').style.display = 'block';
+  const modal = document.getElementById('shopModal');
+  if (modal) {
+    modal.style.display = 'block';
+  } else {
+    console.error('❌ Модальное окно shopModal не найдено');
+  }
 }
 
-// Закрыть модальные окна
+// Закрыть модальные окна (с проверкой параметра)
 function closeModal(modalId) {
   console.log(`🦊 Закрываем модальное окно: ${modalId}`);
-  document.getElementById(modalId).style.display = 'none';
+  
+  if (!modalId) {
+    console.error('❌ modalId не передан в closeModal');
+    return;
+  }
+  
+  const modal = document.getElementById(modalId);
+  if (modal) {
+    modal.style.display = 'none';
 
-  // Очистить выбор
-  const selectors = {
-    earnModal: 'earnAction',
-    spendModal: 'spendAction',
-    shopModal: 'shopAction',
-  };
+    // Очистить выбор
+    const selectors = {
+      earnModal: 'earnAction',
+      spendModal: 'spendAction',
+      shopModal: 'shopAction',
+    };
 
-  if (selectors[modalId]) {
-    const selectElement = document.getElementById(selectors[modalId]);
-    if (selectElement) {
-      selectElement.value = '';
+    if (selectors[modalId]) {
+      const selectElement = document.getElementById(selectors[modalId]);
+      if (selectElement) {
+        selectElement.value = '';
+      }
     }
+  } else {
+    console.error(`❌ Модальное окно ${modalId} не найдено`);
   }
 }
 
 // Подтвердить заработок
 function confirmEarn() {
   const select = document.getElementById('earnAction');
+  if (!select) {
+    console.error('❌ Элемент earnAction не найден');
+    return;
+  }
+  
   const value = parseInt(select.value);
   const text = select.options[select.selectedIndex].text;
 
-  if (!value || !text) {
+  if (!value || !text || value <= 0) {
     alert('Выберите действие!');
     return;
   }
@@ -307,10 +338,15 @@ function confirmEarn() {
 // Подтвердить штраф
 function confirmSpend() {
   const select = document.getElementById('spendAction');
+  if (!select) {
+    console.error('❌ Элемент spendAction не найден');
+    return;
+  }
+  
   const value = parseInt(select.value);
   const text = select.options[select.selectedIndex].text;
 
-  if (!value || !text) {
+  if (!value || !text || value <= 0) {
     alert('Выберите проступок!');
     return;
   }
@@ -360,10 +396,15 @@ function confirmSpend() {
 // Подтвердить покупку
 function confirmShop() {
   const select = document.getElementById('shopAction');
+  if (!select) {
+    console.error('❌ Элемент shopAction не найден');
+    return;
+  }
+  
   const value = parseInt(select.value);
   const text = select.options[select.selectedIndex].text;
 
-  if (!value || !text) {
+  if (!value || !text || value <= 0) {
     alert('Выберите награду!');
     return;
   }
@@ -392,13 +433,19 @@ function confirmShop() {
   closeModal('shopModal');
 }
 
+// ALIAS для совместимости со старыми версиями (если где-то остались)
+function addEarning() {
+  console.warn('⚠️ Используется устаревшая функция addEarning, используйте confirmEarn');
+  confirmEarn();
+}
+
 // Закрытие модальных окон по клику вне их
 window.onclick = function (event) {
   const modals = ['earnModal', 'spendModal', 'shopModal'];
 
   modals.forEach(modalId => {
     const modal = document.getElementById(modalId);
-    if (event.target === modal) {
+    if (modal && event.target === modal) {
       closeModal(modalId);
     }
   });
@@ -412,7 +459,15 @@ window.mamcoinsDebug = {
     history: history.slice(0, 5), // Показываем только последние 5 записей
     totalHistory: history.length,
     isLoading, 
-    firebaseConnected: !!db 
+    firebaseConnected: !!db,
+    elements: {
+      earnModal: !!document.getElementById('earnModal'),
+      spendModal: !!document.getElementById('spendModal'),
+      shopModal: !!document.getElementById('shopModal'),
+      earnAction: !!document.getElementById('earnAction'),
+      spendAction: !!document.getElementById('spendAction'),
+      shopAction: !!document.getElementById('shopAction')
+    }
   }),
   addMamcoins: (amount) => { 
     mamcoins += amount; 
@@ -446,6 +501,13 @@ window.mamcoinsDebug = {
     console.log('Firestore:', db ? '✅ Подключен' : '❌ Не подключен');
     console.log('User ID:', userId);
     console.log('Loading state:', isLoading ? 'Загружается...' : 'Готов');
+  },
+  testElements: () => {
+    console.log('🔍 Проверяем HTML элементы...');
+    ['earnModal', 'spendModal', 'shopModal', 'earnAction', 'spendAction', 'shopAction'].forEach(id => {
+      const el = document.getElementById(id);
+      console.log(`${id}:`, el ? '✅ Найден' : '❌ НЕ найден');
+    });
   }
 };
 
@@ -454,6 +516,11 @@ document.addEventListener('DOMContentLoaded', function () {
   console.log('🦊 Запускаем систему мамкоинов...');
   updateDisplay();
   loadHistory();
+  
+  // Проверяем HTML элементы
+  setTimeout(() => {
+    window.mamcoinsDebug.testElements();
+  }, 100);
   
   // Проверяем, что Firebase загружен
   if (typeof firebase !== 'undefined') {
@@ -468,4 +535,4 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 });
 
-console.log('🦊 Система мамкоинов с Firebase v8 готова! Команды отладки: window.mamcoinsDebug');
+console.log('🦊 Система мамкоинов с Firebase v8 готова! Команды отладки: window.mamcoinsDebug'); 
