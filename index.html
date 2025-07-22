@@ -23,23 +23,23 @@
         </header>
 
         <div class="actions">
-            <button onclick="showEarnModal()" class="btn-earn">➕ Заработал</button>
-            <button onclick="showSpendModal()" class="btn-spend">➖ Штраф</button>
-            <button onclick="showShopModal()" class="btn-shop">🛒 Магазин</button>
+            <button onclick="showEarnModal()" class="btn-earn">🦊 Лисичка молодец</button>
+            <button onclick="showSpendModal()" class="btn-spend">🦊 Лисичка оплошала</button>
+            <button onclick="showShopModal()" class="btn-shop">🦊 За покупками</button>
         </div>
 
         <div class="history">
-            <h3>📊 История операций</h3>
+            <h3>🦊 Журнал лисички</h3>
             <div id="history-list">🔄 Загружается...</div>
         </div>
     </div>
 
-    <!-- Модальное окно ЗАРАБОТАЛ -->
+    <!-- Модальное окно ЛИСИЧКА МОЛОДЕЦ -->
     <div id="earnModal" class="modal">
         <div class="modal-content">
-            <h3>✅ Что хорошего сделал?</h3>
+            <h3>🦊 Лисичка молодец! Что сделала?</h3>
             <select id="earnAction">
-                <option value="">Выбери действие</option>
+                <option value="">🦊 Что лисичка сделала?</option>
                 <optgroup label="🌅 Утренние дела">
                     <option value="2">Почистил зубы (+2 🟡)</option>
                     <option value="2">Оделся сам (+2 🟡)</option>
@@ -94,18 +94,18 @@
                 </optgroup>
             </select>
             <div class="modal-buttons">
-                <button onclick="confirmEarn()" class="btn-confirm">✅ Получить</button>
+                <button onclick="confirmEarn()" class="btn-confirm">🦊 Молодец!</button>
                 <button onclick="closeModal('earnModal')" class="btn-cancel">❌ Отмена</button>
             </div>
         </div>
     </div>
 
-    <!-- Модальное окно ШТРАФЫ -->
+    <!-- Модальное окно ЛИСИЧКА ОПЛОШАЛА -->
     <div id="spendModal" class="modal">
         <div class="modal-content">
-            <h3>❌ За что штраф?</h3>
+            <h3>🦊 Лисичка оплошала! За что?</h3>
             <select id="spendAction">
-                <option value="">Выбери проступок</option>
+                <option value="">🦊 Что натворила?</option>
                 <optgroup label="😤 Непослушание">
                     <option value="3">Не послушался с первого раза (-3 🟡)</option>
                     <option value="5">Капризничал без причины (-5 🟡)</option>
@@ -142,18 +142,18 @@
                 </optgroup>
             </select>
             <div class="modal-buttons">
-                <button onclick="confirmSpend()" class="btn-confirm">❌ Наказать</button>
+                <button onclick="confirmSpend()" class="btn-confirm">🦊 Ой-ой-ой</button>
                 <button onclick="closeModal('spendModal')" class="btn-cancel">🚫 Отмена</button>
             </div>
         </div>
     </div>
 
-    <!-- Модальное окно МАГАЗИН -->
+    <!-- Модальное окно ПОКУПКИ ЛИСИЧКИ -->
     <div id="shopModal" class="modal">
         <div class="modal-content">
-            <h3>🛒 Что хочешь купить?</h3>
+            <h3>🛒 За что потратим мамкоины?</h3>
             <select id="shopAction">
-                <option value="">Выбери награду</option>
+                <option value="">🦊 На что потратим?</option>
                 <optgroup label="🍭 Еда и сладости">
                     <option value="100">Пачка чипсов (10 🟢)</option>
                     <option value="100">Стакан газировки (10 🟢)</option>
@@ -193,7 +193,7 @@
                 </optgroup>
             </select>
             <div class="modal-buttons">
-                <button onclick="confirmShop()" class="btn-confirm">🛒 Купить</button>
+                <button onclick="confirmShop()" class="btn-confirm">🦊 Потратим!</button>
                 <button onclick="closeModal('shopModal')" class="btn-cancel">❌ Отмена</button>
             </div>
         </div>
