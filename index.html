@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🪙 Мамкоины Трекер</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🪙 Мамкоины и Павлуши</h1>
+            <div class="balance">
+                <div class="balance-item">
+                    <span>Мамкоины:</span>
+                    <span id="mamcoins">0</span> 🟢
+                </div>
+                <div class="balance-item">
+                    <span>Павлуши:</span>
+                    <span id="pavlushi">0</span> 🟡
+                </div>
+            </div>
+        </header>
+
+        <div class="actions">
+            <button onclick="showEarnModal()" class="btn-earn">➕ Заработал</button>
+            <button onclick="showSpendModal()" class="btn-spend">➖ Потратил</button>
+            <button onclick="showShopModal()" class="btn-shop">🛒 Магазин</button>
+        </div>
+
+        <div class="history">
+            <h3>📊 История операций</h3>
+            <div id="history-list"></div>
+        </div>
+    </div>
+
+    <!-- Модальные окна -->
+    <div id="earnModal" class="modal">
+        <div class="modal-content">
+            <h3>✅ Что хорошего сделал?</h3>
+            <select id="earnAction">
+                <option value="">Выбери действие</option>
+                <option value="20">Пошел в сад без нытья (+2 🟢)</option>
+                <option value="10">Съел овощи (+1 🟢)</option>
+                <option value="5">Съел суп (+5 🟡)</option>
+                <!-- Добавьте все действия из вашей системы -->
+            </select>
+            <button onclick="addEarning()">Добавить</button>
+            <button onclick="closeModal()">Закрыть</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
