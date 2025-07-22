@@ -25,24 +25,38 @@ body {
     padding: 10px;
 }
 
-/* Настоящая лисичка из Майнкрафта */
+/* НАСТОЯЩАЯ ЛИСИЧКА ИЗ МАЙНКРАФТА - CSS спрайт */
 .minecraft-fox {
     width: 24px;
     height: 24px;
     display: inline-block;
-    background-image: url("https://i.imgur.com/8VNrQZJ.png");
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
     margin: 0 5px;
     vertical-align: middle;
-}
-
-/* Альтернативная лисичка если первая не загрузится */
-.minecraft-fox::before {
-    content: "🦊";
-    font-size: 20px;
-    display: inline-block;
+    background: 
+        /* Ушки лисички */
+        radial-gradient(2px 2px at 4px 3px, #d2691e 60%, transparent 60%),
+        radial-gradient(2px 2px at 12px 3px, #d2691e 60%, transparent 60%),
+        /* Внутренняя часть ушек */
+        radial-gradient(1px 1px at 4px 4px, #f4a460 80%, transparent 80%),
+        radial-gradient(1px 1px at 12px 4px, #f4a460 80%, transparent 80%),
+        /* Основная мордочка */
+        linear-gradient(to right, 
+            transparent 2px, #d2691e 2px, #d2691e 14px, transparent 14px),
+        /* Белая часть мордочки */
+        linear-gradient(to right, 
+            transparent 4px, #fff 4px, #fff 12px, transparent 12px),
+        /* Глазки */
+        radial-gradient(1px 1px at 5px 8px, #000 90%, transparent 90%),
+        radial-gradient(1px 1px at 11px 8px, #000 90%, transparent 90%),
+        /* Носик */
+        radial-gradient(1px 1px at 8px 10px, #000 90%, transparent 90%),
+        /* Рот */
+        linear-gradient(to right, 
+            transparent 6px, #000 6px, #000 7px, transparent 7px,
+            transparent 9px, #000 9px, #000 10px, transparent 10px);
+    background-size: 16px 16px;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .container {
@@ -66,9 +80,31 @@ body {
     left: 10px;
     width: 32px;
     height: 32px;
-    background-image: url("https://i.imgur.com/8VNrQZJ.png");
-    background-size: contain;
+    background: 
+        /* Ушки лисички */
+        radial-gradient(3px 3px at 6px 4px, #d2691e 60%, transparent 60%),
+        radial-gradient(3px 3px at 18px 4px, #d2691e 60%, transparent 60%),
+        /* Внутренняя часть ушек */
+        radial-gradient(2px 2px at 6px 6px, #f4a460 80%, transparent 80%),
+        radial-gradient(2px 2px at 18px 6px, #f4a460 80%, transparent 80%),
+        /* Основная мордочка */
+        linear-gradient(to right, 
+            transparent 3px, #d2691e 3px, #d2691e 21px, transparent 21px),
+        /* Белая часть мордочки */
+        linear-gradient(to right, 
+            transparent 6px, #fff 6px, #fff 18px, transparent 18px),
+        /* Глазки */
+        radial-gradient(2px 2px at 8px 12px, #000 90%, transparent 90%),
+        radial-gradient(2px 2px at 16px 12px, #000 90%, transparent 90%),
+        /* Носик */
+        radial-gradient(2px 2px at 12px 15px, #000 90%, transparent 90%),
+        /* Рот */
+        linear-gradient(to right, 
+            transparent 9px, #000 9px, #000 10px, transparent 10px,
+            transparent 14px, #000 14px, #000 15px, transparent 15px);
+    background-size: 24px 24px;
     background-repeat: no-repeat;
+    background-position: center;
 }
 
 .container::after {
@@ -78,9 +114,31 @@ body {
     right: 10px;
     width: 32px;
     height: 32px;
-    background-image: url("https://i.imgur.com/8VNrQZJ.png");
-    background-size: contain;
+    background: 
+        /* Ушки лисички */
+        radial-gradient(3px 3px at 6px 4px, #d2691e 60%, transparent 60%),
+        radial-gradient(3px 3px at 18px 4px, #d2691e 60%, transparent 60%),
+        /* Внутренняя часть ушек */
+        radial-gradient(2px 2px at 6px 6px, #f4a460 80%, transparent 80%),
+        radial-gradient(2px 2px at 18px 6px, #f4a460 80%, transparent 80%),
+        /* Основная мордочка */
+        linear-gradient(to right, 
+            transparent 3px, #d2691e 3px, #d2691e 21px, transparent 21px),
+        /* Белая часть мордочки */
+        linear-gradient(to right, 
+            transparent 6px, #fff 6px, #fff 18px, transparent 18px),
+        /* Глазки */
+        radial-gradient(2px 2px at 8px 12px, #000 90%, transparent 90%),
+        radial-gradient(2px 2px at 16px 12px, #000 90%, transparent 90%),
+        /* Носик */
+        radial-gradient(2px 2px at 12px 15px, #000 90%, transparent 90%),
+        /* Рот */
+        linear-gradient(to right, 
+            transparent 9px, #000 9px, #000 10px, transparent 10px,
+            transparent 14px, #000 14px, #000 15px, transparent 15px);
+    background-size: 24px 24px;
     background-repeat: no-repeat;
+    background-position: center;
     transform: scaleX(-1);
 }
 
@@ -100,11 +158,33 @@ header::after {
     position: absolute;
     width: 24px;
     height: 24px;
-    background-image: url("https://i.imgur.com/8VNrQZJ.png");
-    background-size: contain;
-    background-repeat: no-repeat;
     top: 50%;
     transform: translateY(-50%);
+    background: 
+        /* Ушки лисички */
+        radial-gradient(2px 2px at 4px 3px, #d2691e 60%, transparent 60%),
+        radial-gradient(2px 2px at 12px 3px, #d2691e 60%, transparent 60%),
+        /* Внутренняя часть ушек */
+        radial-gradient(1px 1px at 4px 4px, #f4a460 80%, transparent 80%),
+        radial-gradient(1px 1px at 12px 4px, #f4a460 80%, transparent 80%),
+        /* Основная мордочка */
+        linear-gradient(to right, 
+            transparent 2px, #d2691e 2px, #d2691e 14px, transparent 14px),
+        /* Белая часть мордочки */
+        linear-gradient(to right, 
+            transparent 4px, #fff 4px, #fff 12px, transparent 12px),
+        /* Глазки */
+        radial-gradient(1px 1px at 5px 8px, #000 90%, transparent 90%),
+        radial-gradient(1px 1px at 11px 8px, #000 90%, transparent 90%),
+        /* Носик */
+        radial-gradient(1px 1px at 8px 10px, #000 90%, transparent 90%),
+        /* Рот */
+        linear-gradient(to right, 
+            transparent 6px, #000 6px, #000 7px, transparent 7px,
+            transparent 9px, #000 9px, #000 10px, transparent 10px);
+    background-size: 16px 16px;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 header::before {
@@ -153,9 +233,27 @@ header h1 {
     transform: translateY(-50%);
     width: 20px;
     height: 20px;
-    background-image: url("https://i.imgur.com/8VNrQZJ.png");
-    background-size: contain;
+    background: 
+        /* Ушки лисички */
+        radial-gradient(2px 2px at 3px 2px, #d2691e 60%, transparent 60%),
+        radial-gradient(2px 2px at 9px 2px, #d2691e 60%, transparent 60%),
+        /* Внутренняя часть ушек */
+        radial-gradient(1px 1px at 3px 3px, #f4a460 80%, transparent 80%),
+        radial-gradient(1px 1px at 9px 3px, #f4a460 80%, transparent 80%),
+        /* Основная мордочка */
+        linear-gradient(to right, 
+            transparent 1px, #d2691e 1px, #d2691e 11px, transparent 11px),
+        /* Белая часть мордочки */
+        linear-gradient(to right, 
+            transparent 3px, #fff 3px, #fff 9px, transparent 9px),
+        /* Глазки */
+        radial-gradient(1px 1px at 4px 6px, #000 90%, transparent 90%),
+        radial-gradient(1px 1px at 8px 6px, #000 90%, transparent 90%),
+        /* Носик */
+        radial-gradient(1px 1px at 6px 8px, #000 90%, transparent 90%);
+    background-size: 12px 12px;
     background-repeat: no-repeat;
+    background-position: center;
 }
 
 .actions {
@@ -187,9 +285,27 @@ header h1 {
     transform: translateY(-50%);
     width: 16px;
     height: 16px;
-    background-image: url("https://i.imgur.com/8VNrQZJ.png");
-    background-size: contain;
+    background: 
+        /* Ушки лисички */
+        radial-gradient(1px 1px at 2px 2px, #d2691e 60%, transparent 60%),
+        radial-gradient(1px 1px at 6px 2px, #d2691e 60%, transparent 60%),
+        /* Внутренняя часть ушек */
+        radial-gradient(1px 1px at 2px 3px, #f4a460 80%, transparent 80%),
+        radial-gradient(1px 1px at 6px 3px, #f4a460 80%, transparent 80%),
+        /* Основная мордочка */
+        linear-gradient(to right, 
+            transparent 1px, #d2691e 1px, #d2691e 7px, transparent 7px),
+        /* Белая часть мордочки */
+        linear-gradient(to right, 
+            transparent 2px, #fff 2px, #fff 6px, transparent 6px),
+        /* Глазки */
+        radial-gradient(1px 1px at 3px 5px, #000 90%, transparent 90%),
+        radial-gradient(1px 1px at 5px 5px, #000 90%, transparent 90%),
+        /* Носик */
+        radial-gradient(1px 1px at 4px 6px, #000 90%, transparent 90%);
+    background-size: 8px 8px;
     background-repeat: no-repeat;
+    background-position: center;
 }
 
 .btn-earn {
@@ -240,9 +356,27 @@ header h1 {
     top: -15px;
     width: 24px;
     height: 24px;
-    background-image: url("https://i.imgur.com/8VNrQZJ.png");
-    background-size: contain;
+    background: 
+        /* Ушки лисички */
+        radial-gradient(2px 2px at 4px 3px, #d2691e 60%, transparent 60%),
+        radial-gradient(2px 2px at 12px 3px, #d2691e 60%, transparent 60%),
+        /* Внутренняя часть ушек */
+        radial-gradient(1px 1px at 4px 4px, #f4a460 80%, transparent 80%),
+        radial-gradient(1px 1px at 12px 4px, #f4a460 80%, transparent 80%),
+        /* Основная мордочка */
+        linear-gradient(to right, 
+            transparent 2px, #d2691e 2px, #d2691e 14px, transparent 14px),
+        /* Белая часть мордочки */
+        linear-gradient(to right, 
+            transparent 4px, #fff 4px, #fff 12px, transparent 12px),
+        /* Глазки */
+        radial-gradient(1px 1px at 5px 8px, #000 90%, transparent 90%),
+        radial-gradient(1px 1px at 11px 8px, #000 90%, transparent 90%),
+        /* Носик */
+        radial-gradient(1px 1px at 8px 10px, #000 90%, transparent 90%);
+    background-size: 16px 16px;
     background-repeat: no-repeat;
+    background-position: center;
 }
 
 .history::before {
@@ -292,9 +426,27 @@ header h1 {
     top: 15px;
     width: 32px;
     height: 32px;
-    background-image: url("https://i.imgur.com/8VNrQZJ.png");
-    background-size: contain;
+    background: 
+        /* Ушки лисички */
+        radial-gradient(3px 3px at 6px 4px, #d2691e 60%, transparent 60%),
+        radial-gradient(3px 3px at 18px 4px, #d2691e 60%, transparent 60%),
+        /* Внутренняя часть ушек */
+        radial-gradient(2px 2px at 6px 6px, #f4a460 80%, transparent 80%),
+        radial-gradient(2px 2px at 18px 6px, #f4a460 80%, transparent 80%),
+        /* Основная мордочка */
+        linear-gradient(to right, 
+            transparent 3px, #d2691e 3px, #d2691e 21px, transparent 21px),
+        /* Белая часть мордочки */
+        linear-gradient(to right, 
+            transparent 6px, #fff 6px, #fff 18px, transparent 18px),
+        /* Глазки */
+        radial-gradient(2px 2px at 8px 12px, #000 90%, transparent 90%),
+        radial-gradient(2px 2px at 16px 12px, #000 90%, transparent 90%),
+        /* Носик */
+        radial-gradient(2px 2px at 12px 15px, #000 90%, transparent 90%);
+    background-size: 24px 24px;
     background-repeat: no-repeat;
+    background-position: center;
 }
 
 .modal-content::before {
@@ -360,9 +512,24 @@ header h1 {
     transform: translateY(-50%);
     width: 12px;
     height: 12px;
-    background-image: url("https://i.imgur.com/8VNrQZJ.png");
-    background-size: contain;
+    background: 
+        /* Ушки лисички */
+        radial-gradient(1px 1px at 2px 1px, #d2691e 60%, transparent 60%),
+        radial-gradient(1px 1px at 5px 1px, #d2691e 60%, transparent 60%),
+        /* Основная мордочка */
+        linear-gradient(to right, 
+            transparent 1px, #d2691e 1px, #d2691e 6px, transparent 6px),
+        /* Белая часть мордочки */
+        linear-gradient(to right, 
+            transparent 2px, #fff 2px, #fff 5px, transparent 5px),
+        /* Глазки */
+        radial-gradient(1px 1px at 2px 4px, #000 90%, transparent 90%),
+        radial-gradient(1px 1px at 5px 4px, #000 90%, transparent 90%),
+        /* Носик */
+        radial-gradient(1px 1px at 3px 5px, #000 90%, transparent 90%);
+    background-size: 6px 6px;
     background-repeat: no-repeat;
+    background-position: center;
 }
 
 .btn-confirm {
@@ -402,9 +569,24 @@ header h1 {
     transform: translateY(-50%);
     width: 16px;
     height: 16px;
-    background-image: url("https://i.imgur.com/8VNrQZJ.png");
-    background-size: contain;
+    background: 
+        /* Ушки лисички */
+        radial-gradient(1px 1px at 2px 2px, #d2691e 60%, transparent 60%),
+        radial-gradient(1px 1px at 6px 2px, #d2691e 60%, transparent 60%),
+        /* Основная мордочка */
+        linear-gradient(to right, 
+            transparent 1px, #d2691e 1px, #d2691e 7px, transparent 7px),
+        /* Белая часть мордочки */
+        linear-gradient(to right, 
+            transparent 2px, #fff 2px, #fff 6px, transparent 6px),
+        /* Глазки */
+        radial-gradient(1px 1px at 3px 5px, #000 90%, transparent 90%),
+        radial-gradient(1px 1px at 5px 5px, #000 90%, transparent 90%),
+        /* Носик */
+        radial-gradient(1px 1px at 4px 6px, #000 90%, transparent 90%);
+    background-size: 8px 8px;
     background-repeat: no-repeat;
+    background-position: center;
 }
 
 .history-item.positive {
