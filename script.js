@@ -439,6 +439,16 @@ function addEarning() {
   confirmEarn();
 }
 
+function addSpending() {
+  console.warn('⚠️ Используется устаревшая функция addSpending, используйте confirmSpend');
+  confirmSpend();
+}
+
+function addShopping() {
+  console.warn('⚠️ Используется устаревшая функция addShopping, используйте confirmShop');
+  confirmShop();
+}
+
 // Закрытие модальных окон по клику вне их
 window.onclick = function (event) {
   const modals = ['earnModal', 'spendModal', 'shopModal'];
