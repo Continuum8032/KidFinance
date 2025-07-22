@@ -337,26 +337,31 @@ header h1 {
     color: #2d2d2d;
 }
 
+/* УВЕЛИЧЕННЫЙ РАЗМЕР ТЕКСТА В ВЫПАДАЮЩИХ МЕНЮ */
 .modal select {
     font-family: 'Press Start 2P', monospace;
-    font-size: 10px;
+    font-size: 12px; /* Увеличено с 10px */
     width: 100%;
     padding: 15px;
     border: 3px solid #666;
     border-style: inset;
     background: rgba(255, 255, 255, 0.9);
     margin-bottom: 20px;
+    line-height: 1.4;
 }
 
 .modal select option {
-    font-size: 10px;
-    padding: 5px;
+    font-size: 12px; /* Увеличено с 10px */
+    padding: 8px; /* Увеличено с 5px */
+    line-height: 1.6;
+    background: rgba(255, 255, 255, 0.95);
 }
 
 .modal select optgroup {
     font-weight: bold;
     background: rgba(76, 175, 80, 0.2);
-    font-size: 10px;
+    font-size: 12px; /* Увеличено с 10px */
+    padding: 5px;
 }
 
 .modal-buttons {
@@ -465,7 +470,7 @@ header h1 {
     font-size: 11px;
 }
 
-/* Адаптивность */
+/* Адаптивность с увеличенным текстом */
 @media (max-width: 768px) {
     body {
         font-size: 10px;
@@ -506,7 +511,16 @@ header h1 {
     }
     
     .modal select {
-        font-size: 9px;
+        font-size: 11px; /* Увеличено с 9px */
+    }
+    
+    .modal select option {
+        font-size: 11px; /* Увеличено */
+        padding: 6px;
+    }
+    
+    .modal select optgroup {
+        font-size: 11px; /* Увеличено */
     }
 }
 
