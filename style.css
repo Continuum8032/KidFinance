@@ -15,612 +15,503 @@ body {
         linear-gradient(0deg, #4a4a4a 0px, #4a4a4a 2px, transparent 2px),
         linear-gradient(90deg, #4a4a4a 0px, #4a4a4a 2px, transparent 2px),
         linear-gradient(45deg, #7cb342 25%, transparent 25%, transparent 75%, #7cb342 75%),
-        linear-gradient(-45deg, #689f38 25%, transparent 25%, transparent 75%, #689f38 75%);
-    background-size: 32px 32px, 32px 32px, 64px 64px, 64px 64px;
-    background-color: #8bc34a;
+        linear-gradient(-45deg, #8bc34a 25%, transparent 25%, transparent 75%, #8bc34a 75%),
+        #689f38;
+    background-size: 32px 32px, 32px 32px, 64px 64px, 64px 64px, 100% 100%;
     min-height: 100vh;
-    color: #2e2e2e;
+    color: #2d2d2d;
+    font-size: 12px;
     line-height: 1.6;
+    padding: 10px;
 }
 
-/* Пиксельная лисичка CSS спрайт */
-.fox-pixel {
-    width: 32px;
-    height: 32px;
+/* Настоящая лисичка из Майнкрафта */
+.minecraft-fox {
+    width: 24px;
+    height: 24px;
     display: inline-block;
-    background: 
-        /* Уши */
-        radial-gradient(circle at 8px 8px, #ff6b35 3px, transparent 3px),
-        radial-gradient(circle at 24px 8px, #ff6b35 3px, transparent 3px),
-        /* Мордочка */
-        radial-gradient(circle at 16px 16px, #ff8c42 8px, transparent 8px),
-        /* Глаза */
-        radial-gradient(circle at 12px 14px, #000 1px, transparent 1px),
-        radial-gradient(circle at 20px 14px, #000 1px, transparent 1px),
-        /* Нос */
-        radial-gradient(circle at 16px 18px, #2e2e2e 1px, transparent 1px);
-    animation: foxBounce 2s ease-in-out infinite;
-    position: relative;
+    background-image: url("https://i.imgur.com/8VNrQZJ.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 0 5px;
+    vertical-align: middle;
 }
 
-@keyframes foxBounce {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-4px); }
-}
-
-/* Большая лисичка */
-.fox-big {
-    width: 64px;
-    height: 64px;
-    background: 
-        /* Уши */
-        radial-gradient(circle at 16px 16px, #ff6b35 6px, transparent 6px),
-        radial-gradient(circle at 48px 16px, #ff6b35 6px, transparent 6px),
-        /* Внутри ушей */
-        radial-gradient(circle at 16px 18px, #ffab91 3px, transparent 3px),
-        radial-gradient(circle at 48px 18px, #ffab91 3px, transparent 3px),
-        /* Голова */
-        radial-gradient(circle at 32px 32px, #ff8c42 16px, transparent 16px),
-        /* Щеки */
-        radial-gradient(circle at 20px 36px, #ffab91 6px, transparent 6px),
-        radial-gradient(circle at 44px 36px, #ffab91 6px, transparent 6px),
-        /* Глаза */
-        radial-gradient(circle at 26px 28px, #000 2px, transparent 2px),
-        radial-gradient(circle at 38px 28px, #000 2px, transparent 2px),
-        /* Блики в глазах */
-        radial-gradient(circle at 27px 27px, #fff 1px, transparent 1px),
-        radial-gradient(circle at 39px 27px, #fff 1px, transparent 1px),
-        /* Нос */
-        radial-gradient(circle at 32px 36px, #2e2e2e 2px, transparent 2px);
-    animation: foxBounce 3s ease-in-out infinite;
+/* Альтернативная лисичка если первая не загрузится */
+.minecraft-fox::before {
+    content: "🦊";
+    font-size: 20px;
+    display: inline-block;
 }
 
 .container {
-    max-width: 900px;
+    max-width: 800px;
     margin: 0 auto;
+    background: rgba(139, 139, 139, 0.95);
+    border: 4px solid #8b8b8b;
+    border-style: outset;
+    box-shadow: 
+        inset -2px -2px 0px #5a5a5a,
+        inset 2px 2px 0px #ffffff,
+        4px 4px 0px rgba(0,0,0,0.3);
     padding: 20px;
     position: relative;
 }
 
-/* Декоративные лисички */
-body::before {
-    content: '';
-    position: fixed;
-    top: 20px;
-    right: 20px;
+.container::before {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 10px;
     width: 32px;
     height: 32px;
-    background: 
-        radial-gradient(circle at 8px 8px, #ff6b35 3px, transparent 3px),
-        radial-gradient(circle at 24px 8px, #ff6b35 3px, transparent 3px),
-        radial-gradient(circle at 16px 16px, #ff8c42 8px, transparent 8px),
-        radial-gradient(circle at 12px 14px, #000 1px, transparent 1px),
-        radial-gradient(circle at 20px 14px, #000 1px, transparent 1px),
-        radial-gradient(circle at 16px 18px, #2e2e2e 1px, transparent 1px);
-    animation: foxBounce 2s ease-in-out infinite;
-    z-index: 100;
+    background-image: url("https://i.imgur.com/8VNrQZJ.png");
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
-body::after {
-    content: '';
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
+.container::after {
+    content: "";
+    position: absolute;
+    top: 10px;
+    right: 10px;
     width: 32px;
     height: 32px;
-    background: 
-        radial-gradient(circle at 8px 8px, #ff6b35 3px, transparent 3px),
-        radial-gradient(circle at 24px 8px, #ff6b35 3px, transparent 3px),
-        radial-gradient(circle at 16px 16px, #ff8c42 8px, transparent 8px),
-        radial-gradient(circle at 12px 14px, #000 1px, transparent 1px),
-        radial-gradient(circle at 20px 14px, #000 1px, transparent 1px),
-        radial-gradient(circle at 16px 18px, #2e2e2e 1px, transparent 1px);
-    animation: foxBounce 2.5s ease-in-out infinite reverse;
-    z-index: 100;
+    background-image: url("https://i.imgur.com/8VNrQZJ.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    transform: scaleX(-1);
 }
 
-/* Блочный стиль заголовка */
 header {
-    background: 
-        linear-gradient(145deg, #8d6e63, #5d4037),
-        repeating-linear-gradient(0deg, #6d4c41 0px, #6d4c41 4px, #5d4037 4px, #5d4037 8px);
-    border: 4px solid #3e2723;
-    border-radius: 0;
-    padding: 32px 24px;
     text-align: center;
-    box-shadow: 
-        inset 2px 2px 0px #a1887f,
-        inset -2px -2px 0px #3e2723,
-        4px 4px 0px #2e2e2e;
-    margin-bottom: 32px;
+    margin-bottom: 30px;
+    background: rgba(76, 175, 80, 0.9);
+    border: 3px solid #4caf50;
+    border-style: outset;
+    padding: 15px;
     position: relative;
 }
 
-header::before {
-    content: '';
+header::before,
+header::after {
+    content: "";
     position: absolute;
-    top: 8px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 64px;
-    height: 64px;
-    background: 
-        radial-gradient(circle at 16px 16px, #ff6b35 6px, transparent 6px),
-        radial-gradient(circle at 48px 16px, #ff6b35 6px, transparent 6px),
-        radial-gradient(circle at 16px 18px, #ffab91 3px, transparent 3px),
-        radial-gradient(circle at 48px 18px, #ffab91 3px, transparent 3px),
-        radial-gradient(circle at 32px 32px, #ff8c42 16px, transparent 16px),
-        radial-gradient(circle at 20px 36px, #ffab91 6px, transparent 6px),
-        radial-gradient(circle at 44px 36px, #ffab91 6px, transparent 6px),
-        radial-gradient(circle at 26px 28px, #000 2px, transparent 2px),
-        radial-gradient(circle at 38px 28px, #000 2px, transparent 2px),
-        radial-gradient(circle at 27px 27px, #fff 1px, transparent 1px),
-        radial-gradient(circle at 39px 27px, #fff 1px, transparent 1px),
-        radial-gradient(circle at 32px 36px, #2e2e2e 2px, transparent 2px);
-    animation: foxBounce 3s ease-in-out infinite;
+    width: 24px;
+    height: 24px;
+    background-image: url("https://i.imgur.com/8VNrQZJ.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
-h1 {
-    font-size: 1.5rem;
-    font-weight: normal;
-    margin: 80px 0 24px 0;
+header::before {
+    left: 10px;
+}
+
+header::after {
+    right: 10px;
+    transform: translateY(-50%) scaleX(-1);
+}
+
+header h1 {
     color: #fff;
-    text-shadow: 
-        2px 2px 0px #000,
-        1px 1px 0px #424242;
-    letter-spacing: 2px;
+    font-size: 16px;
+    text-shadow: 2px 2px 0px #2e7d32;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
 }
 
 .balance {
     display: flex;
-    justify-content: space-around;
-    gap: 16px;
+    justify-content: center;
+    gap: 30px;
     flex-wrap: wrap;
 }
 
 .balance-item {
-    background: 
-        linear-gradient(145deg, #ffcc02, #ff9800),
-        repeating-linear-gradient(45deg, transparent 0px, transparent 4px, rgba(0,0,0,0.1) 4px, rgba(0,0,0,0.1) 8px);
-    border: 4px solid #e65100;
-    padding: 16px 24px;
-    font-size: 1rem;
-    color: #2e2e2e;
+    background: rgba(255, 193, 7, 0.9);
+    border: 3px solid #ffc107;
+    border-style: outset;
+    padding: 10px 15px;
+    font-size: 14px;
+    color: #2d2d2d;
     text-shadow: 1px 1px 0px #fff;
-    box-shadow: 
-        inset 2px 2px 0px #ffd54f,
-        inset -2px -2px 0px #bf360c,
-        4px 4px 0px #2e2e2e;
     position: relative;
-    transition: all 0.1s ease;
 }
 
-.balance-item::after {
-    content: '';
+.balance-item::before {
+    content: "";
     position: absolute;
-    top: -8px;
-    right: -8px;
-    width: 16px;
-    height: 16px;
-    background: 
-        radial-gradient(circle at 4px 4px, #ff6b35 2px, transparent 2px),
-        radial-gradient(circle at 12px 4px, #ff6b35 2px, transparent 2px),
-        radial-gradient(circle at 8px 8px, #ff8c42 4px, transparent 4px),
-        radial-gradient(circle at 6px 7px, #000 0.5px, transparent 0.5px),
-        radial-gradient(circle at 10px 7px, #000 0.5px, transparent 0.5px);
+    left: -30px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    background-image: url("https://i.imgur.com/8VNrQZJ.png");
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
-.balance-item:hover {
-    transform: translateY(-2px);
-    box-shadow: 
-        inset 2px 2px 0px #ffd54f,
-        inset -2px -2px 0px #bf360c,
-        4px 6px 0px #2e2e2e;
-}
-
-/* Майнкрафт кнопки */
 .actions {
     display: flex;
-    gap: 16px;
-    margin-bottom: 32px;
     justify-content: center;
+    gap: 20px;
+    margin: 30px 0;
     flex-wrap: wrap;
 }
 
 .actions button {
-    padding: 16px 24px;
-    font-size: 1rem;
     font-family: 'Press Start 2P', monospace;
-    border: 4px solid;
+    font-size: 12px;
+    padding: 15px 20px;
+    border: 3px solid;
+    border-style: outset;
     cursor: pointer;
-    transition: all 0.1s ease;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    transition: all 0.1s;
     position: relative;
-    background-repeat: no-repeat;
-    color: #fff;
-    text-shadow: 2px 2px 0px #000;
+    min-width: 150px;
+    background-size: 400% 100%;
 }
 
 .actions button::before {
-    content: '';
+    content: "";
     position: absolute;
-    top: -8px;
-    left: 8px;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
     width: 16px;
     height: 16px;
-    background: 
-        radial-gradient(circle at 4px 4px, #ff6b35 2px, transparent 2px),
-        radial-gradient(circle at 12px 4px, #ff6b35 2px, transparent 2px),
-        radial-gradient(circle at 8px 8px, #ff8c42 4px, transparent 4px),
-        radial-gradient(circle at 6px 7px, #000 0.5px, transparent 0.5px),
-        radial-gradient(circle at 10px 7px, #000 0.5px, transparent 0.5px);
+    background-image: url("https://i.imgur.com/8VNrQZJ.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.btn-earn {
+    background: linear-gradient(45deg, #4caf50, #8bc34a, #4caf50, #8bc34a);
+    border-color: #4caf50;
+    color: white;
+    text-shadow: 1px 1px 0px #2e7d32;
+}
+
+.btn-spend {
+    background: linear-gradient(45deg, #f44336, #ef5350, #f44336, #ef5350);
+    border-color: #f44336;
+    color: white;
+    text-shadow: 1px 1px 0px #c62828;
+}
+
+.btn-shop {
+    background: linear-gradient(45deg, #2196f3, #42a5f5, #2196f3, #42a5f5);
+    border-color: #2196f3;
+    color: white;
+    text-shadow: 1px 1px 0px #1565c0;
 }
 
 .actions button:hover {
-    transform: translateY(-2px);
+    border-style: inset;
+    background-position: 100% 0;
+    transform: scale(1.05);
 }
 
 .actions button:active {
-    transform: translateY(2px);
+    border-style: inset;
+    transform: scale(0.98);
 }
 
-.btn-earn { 
-    background: 
-        linear-gradient(145deg, #4caf50, #2e7d32),
-        repeating-linear-gradient(0deg, transparent 0px, transparent 4px, rgba(255,255,255,0.1) 4px, rgba(255,255,255,0.1) 8px);
-    border-color: #1b5e20;
-    box-shadow: 
-        inset 2px 2px 0px #81c784,
-        inset -2px -2px 0px #1b5e20,
-        4px 4px 0px #2e2e2e;
-}
-
-.btn-spend { 
-    background: 
-        linear-gradient(145deg, #f44336, #c62828),
-        repeating-linear-gradient(0deg, transparent 0px, transparent 4px, rgba(255,255,255,0.1) 4px, rgba(255,255,255,0.1) 8px);
-    border-color: #b71c1c;
-    box-shadow: 
-        inset 2px 2px 0px #e57373,
-        inset -2px -2px 0px #b71c1c,
-        4px 4px 0px #2e2e2e;
-}
-
-.btn-shop { 
-    background: 
-        linear-gradient(145deg, #ff9800, #f57c00),
-        repeating-linear-gradient(0deg, transparent 0px, transparent 4px, rgba(255,255,255,0.1) 4px, rgba(255,255,255,0.1) 8px);
-    border-color: #e65100;
-    box-shadow: 
-        inset 2px 2px 0px #ffb74d,
-        inset -2px -2px 0px #e65100,
-        4px 4px 0px #2e2e2e;
-}
-
-/* История в стиле инвентаря */
 .history {
-    background: 
-        linear-gradient(145deg, #795548, #5d4037),
-        repeating-linear-gradient(0deg, #6d4c41 0px, #6d4c41 4px, #5d4037 4px, #5d4037 8px);
-    border: 4px solid #3e2723;
-    padding: 24px;
-    box-shadow: 
-        inset 2px 2px 0px #8d6e63,
-        inset -2px -2px 0px #3e2723,
-        4px 4px 0px #2e2e2e;
+    background: rgba(158, 158, 158, 0.9);
+    border: 3px solid #9e9e9e;
+    border-style: inset;
+    padding: 20px;
+    margin-top: 30px;
     position: relative;
+}
+
+.history::before,
+.history::after {
+    content: "";
+    position: absolute;
+    top: -15px;
+    width: 24px;
+    height: 24px;
+    background-image: url("https://i.imgur.com/8VNrQZJ.png");
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
 .history::before {
-    content: 'ЖУРНАЛ ЛИСИЧКИ';
-    position: absolute;
-    top: -12px;
-    left: 24px;
-    background: #8d6e63;
-    padding: 4px 12px;
-    border: 2px solid #3e2723;
-    font-size: 0.7rem;
-    color: #fff;
-    text-shadow: 1px 1px 0px #000;
+    left: 20px;
+}
+
+.history::after {
+    right: 20px;
+    transform: scaleX(-1);
 }
 
 .history h3 {
-    font-size: 1.2rem;
-    margin-bottom: 16px;
+    color: #2d2d2d;
+    margin-bottom: 15px;
     text-align: center;
-    color: #fff;
-    text-shadow: 2px 2px 0px #000;
+    font-size: 14px;
 }
 
-.history-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 16px;
-    margin: 8px 0;
-    border: 2px solid;
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(2px);
+}
+
+.modal-content {
+    background: rgba(139, 139, 139, 0.98);
+    border: 4px solid #8b8b8b;
+    border-style: outset;
+    box-shadow: 8px 8px 0px rgba(0,0,0,0.5);
+    margin: 10% auto;
+    padding: 30px;
+    width: 90%;
+    max-width: 500px;
     position: relative;
-    font-size: 0.8rem;
-    transition: all 0.1s ease;
 }
 
-.history-item::before {
-    content: '';
+.modal-content::before,
+.modal-content::after {
+    content: "";
     position: absolute;
-    left: 8px;
+    top: 15px;
+    width: 32px;
+    height: 32px;
+    background-image: url("https://i.imgur.com/8VNrQZJ.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.modal-content::before {
+    left: 15px;
+}
+
+.modal-content::after {
+    right: 15px;
+    transform: scaleX(-1);
+}
+
+.modal h3 {
+    text-align: center;
+    font-size: 14px;
+    margin-bottom: 20px;
+    color: #2d2d2d;
+}
+
+.modal select {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    width: 100%;
+    padding: 15px;
+    border: 3px solid #666;
+    border-style: inset;
+    background: rgba(255, 255, 255, 0.9);
+    margin-bottom: 20px;
+}
+
+.modal select option {
+    font-size: 10px;
+    padding: 5px;
+}
+
+.modal select optgroup {
+    font-weight: bold;
+    background: rgba(76, 175, 80, 0.2);
+    font-size: 10px;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.modal-buttons button {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 11px;
+    padding: 12px 20px;
+    border: 3px solid;
+    border-style: outset;
+    cursor: pointer;
+    position: relative;
+}
+
+.modal-buttons button::before {
+    content: "";
+    position: absolute;
+    right: 5px;
     top: 50%;
     transform: translateY(-50%);
     width: 12px;
     height: 12px;
-    background: 
-        radial-gradient(circle at 3px 3px, #ff6b35 1.5px, transparent 1.5px),
-        radial-gradient(circle at 9px 3px, #ff6b35 1.5px, transparent 1.5px),
-        radial-gradient(circle at 6px 6px, #ff8c42 3px, transparent 3px),
-        radial-gradient(circle at 5px 5px, #000 0.5px, transparent 0.5px),
-        radial-gradient(circle at 7px 5px, #000 0.5px, transparent 0.5px);
+    background-image: url("https://i.imgur.com/8VNrQZJ.png");
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
-.history-item:hover {
-    transform: translateY(-1px);
+.btn-confirm {
+    background: #4caf50;
+    border-color: #4caf50;
+    color: white;
 }
 
-.history-item.earn {
-    background: 
-        linear-gradient(145deg, #4caf50, #2e7d32);
-    border-color: #1b5e20;
-    color: #fff;
-    text-shadow: 1px 1px 0px #000;
-    box-shadow: 
-        inset 1px 1px 0px #81c784,
-        inset -1px -1px 0px #1b5e20;
+.btn-cancel {
+    background: #f44336;
+    border-color: #f44336;
+    color: white;
 }
 
-.history-item.spend {
-    background: 
-        linear-gradient(145deg, #f44336, #c62828);
-    border-color: #b71c1c;
-    color: #fff;
-    text-shadow: 1px 1px 0px #000;
-    box-shadow: 
-        inset 1px 1px 0px #e57373,
-        inset -1px -1px 0px #b71c1c;
+.modal-buttons button:hover {
+    border-style: inset;
 }
 
-.history-item.buy {
-    background: 
-        linear-gradient(145deg, #ff9800, #f57c00);
-    border-color: #e65100;
-    color: #fff;
-    text-shadow: 1px 1px 0px #000;
-    box-shadow: 
-        inset 1px 1px 0px #ffb74d,
-        inset -1px -1px 0px #e65100;
-}
-
-.date {
-    font-size: 0.6rem;
-    opacity: 0.8;
-}
-
-.action {
-    margin-left: 24px;
-    font-weight: normal;
-}
-
-/* Модальные окна в стиле майнкрафта */
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    z-index: 1000;
-}
-
-.modal-content {
-    background: 
-        linear-gradient(145deg, #795548, #5d4037),
-        repeating-linear-gradient(0deg, #6d4c41 0px, #6d4c41 4px, #5d4037 4px, #5d4037 8px);
-    margin: 5% auto;
-    padding: 32px;
-    border: 4px solid #3e2723;
-    width: 90%;
-    max-width: 600px;
-    text-align: center;
-    box-shadow: 
-        inset 2px 2px 0px #8d6e63,
-        inset -2px -2px 0px #3e2723,
-        8px 8px 0px #2e2e2e;
+.history-item {
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid #666;
+    border-style: outset;
+    padding: 10px;
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 10px;
     position: relative;
 }
 
-.modal-content::before {
-    content: '';
+.history-item::before {
+    content: "";
     position: absolute;
-    top: -16px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 32px;
-    height: 32px;
-    background: 
-        radial-gradient(circle at 8px 8px, #ff6b35 3px, transparent 3px),
-        radial-gradient(circle at 24px 8px, #ff6b35 3px, transparent 3px),
-        radial-gradient(circle at 16px 16px, #ff8c42 8px, transparent 8px),
-        radial-gradient(circle at 12px 14px, #000 1px, transparent 1px),
-        radial-gradient(circle at 20px 14px, #000 1px, transparent 1px),
-        radial-gradient(circle at 16px 18px, #2e2e2e 1px, transparent 1px);
-    animation: foxBounce 2s ease-in-out infinite;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    background-image: url("https://i.imgur.com/8VNrQZJ.png");
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
-.modal-content h3 {
-    font-size: 1.2rem;
-    margin-bottom: 24px;
-    color: #fff;
-    text-shadow: 2px 2px 0px #000;
+.history-item.positive {
+    border-left: 4px solid #4caf50;
+    background: rgba(76, 175, 80, 0.1);
 }
 
-.modal-content select {
-    width: 100%;
-    margin: 16px 0;
-    padding: 12px 16px;
-    font-size: 0.8rem;
-    font-family: 'Press Start 2P', monospace;
-    border: 4px solid #3e2723;
-    background: 
-        linear-gradient(145deg, #8d6e63, #6d4c41);
-    color: #fff;
-    text-shadow: 1px 1px 0px #000;
-    box-shadow: 
-        inset 2px 2px 0px #a1887f,
-        inset -2px -2px 0px #3e2723;
+.history-item.negative {
+    border-left: 4px solid #f44336;
+    background: rgba(244, 67, 54, 0.1);
 }
 
-.modal-content select:focus {
-    outline: none;
-    box-shadow: 
-        inset 2px 2px 0px #a1887f,
-        inset -2px -2px 0px #3e2723,
-        0 0 0 4px #ffcc02;
+.history-item.purchase {
+    border-left: 4px solid #2196f3;
+    background: rgba(33, 150, 243, 0.1);
 }
 
-.modal-content button {
-    margin: 16px 8px;
-    padding: 12px 20px;
-    font-size: 0.8rem;
-    font-family: 'Press Start 2P', monospace;
-    border: 4px solid;
-    cursor: pointer;
-    transition: all 0.1s ease;
-    text-transform: uppercase;
-    color: #fff;
-    text-shadow: 1px 1px 0px #000;
+.history-text {
+    flex-grow: 1;
+    margin-left: 25px;
 }
 
-.modal-content button:first-of-type {
-    background: 
-        linear-gradient(145deg, #4caf50, #2e7d32);
-    border-color: #1b5e20;
-    box-shadow: 
-        inset 2px 2px 0px #81c784,
-        inset -2px -2px 0px #1b5e20;
+.history-amount {
+    font-weight: bold;
+    font-size: 11px;
 }
 
-.modal-content button:last-of-type {
-    background: 
-        linear-gradient(145deg, #607d8b, #455a64);
-    border-color: #263238;
-    box-shadow: 
-        inset 2px 2px 0px #90a4ae,
-        inset -2px -2px 0px #263238;
-}
-
-.modal-content button:hover {
-    transform: translateY(-2px);
-}
-
-.modal-content button:active {
-    transform: translateY(2px);
-}
-
-/* Стили для опций */
-optgroup {
-    font-weight: normal;
-    color: #ffcc02;
-    margin: 8px 0;
-    font-size: 0.7rem;
-}
-
-option {
-    font-weight: normal;
-    color: #fff;
-    padding: 4px;
-    background: #5d4037;
-}
-
-/* Адаптивность для мобильных */
+/* Адаптивность */
 @media (max-width: 768px) {
     body {
-        background-size: 16px 16px, 16px 16px, 32px 32px, 32px 32px;
+        font-size: 10px;
+        padding: 5px;
     }
     
-    h1 {
-        font-size: 1rem;
-        margin: 60px 0 16px 0;
+    .container {
+        padding: 15px;
+    }
+    
+    header h1 {
+        font-size: 12px;
     }
     
     .balance {
-        flex-direction: column;
-        gap: 12px;
+        gap: 15px;
     }
     
     .balance-item {
-        font-size: 0.8rem;
-        padding: 12px 16px;
-    }
-    
-    .actions {
-        flex-direction: column;
-        gap: 12px;
-    }
-    
-    .actions button {
-        width: 100%;
-        padding: 12px;
-        font-size: 0.8rem;
-    }
-    
-    .history-item {
-        flex-direction: column;
-        text-align: center;
-        gap: 8px;
+        font-size: 10px;
         padding: 8px 12px;
     }
     
+    .actions {
+        gap: 10px;
+    }
+    
+    .actions button {
+        font-size: 10px;
+        padding: 12px 15px;
+        min-width: 120px;
+    }
+    
     .modal-content {
-        margin: 10% auto;
-        padding: 24px 16px;
         width: 95%;
+        margin: 5% auto;
+        padding: 20px;
     }
     
-    .modal-content h3 {
-        font-size: 1rem;
-    }
-    
-    .modal-content select,
-    .modal-content button {
-        font-size: 0.7rem;
-    }
-    
-    .fox-pixel, 
-    body::before, 
-    body::after {
-        width: 24px;
-        height: 24px;
-    }
-    
-    header::before {
-        width: 48px;
-        height: 48px;
+    .modal select {
+        font-size: 9px;
     }
 }
 
-/* Дополнительные пиксельные лисички */
-.fox-decoration {
-    position: absolute;
-    width: 16px;
-    height: 16px;
-    background: 
-        radial-gradient(circle at 4px 4px, #ff6b35 2px, transparent 2px),
-        radial-gradient(circle at 12px 4px, #ff6b35 2px, transparent 2px),
-        radial-gradient(circle at 8px 8px, #ff8c42 4px, transparent 4px),
-        radial-gradient(circle at 6px 7px, #000 0.5px, transparent 0.5px),
-        radial-gradient(circle at 10px 7px, #000 0.5px, transparent 0.5px);
-    animation: foxBounce 3s ease-in-out infinite;
+/* Анимация лисичек */
+.minecraft-fox,
+.container::before,
+.container::after,
+.header::before,
+.header::after,
+.balance-item::before,
+.actions button::before,
+.history::before,
+.history::after,
+.modal-content::before,
+.modal-content::after,
+.history-item::before,
+.modal-buttons button::before {
+    animation: foxBounce 3s ease-in-out infinite alternate;
 }
 
-.fox-decoration:nth-of-type(1) { top: 10%; right: 15%; animation-delay: 0.5s; }
-.fox-decoration:nth-of-type(2) { bottom: 15%; right: 10%; animation-delay: 1s; }
-.fox-decoration:nth-of-type(3) { top: 60%; left: 5%; animation-delay: 1.5s; }
+@keyframes foxBounce {
+    0% { transform: translateY(0px) scaleX(1); }
+    50% { transform: translateY(-2px) scaleX(1); }
+    100% { transform: translateY(0px) scaleX(1); }
+}
+
+/* Разные задержки анимации для разных лисичек */
+.container::after { animation-delay: 0.5s; }
+.header::after { animation-delay: 1s; }
+.history::after { animation-delay: 1.5s; }
+.modal-content::after { animation-delay: 2s; }
+
+/* Эффект пикселизации */
+.container,
+.modal-content,
+.history,
+.balance-item,
+.actions button,
+.history-item {
+    image-rendering: pixelated;
+}
