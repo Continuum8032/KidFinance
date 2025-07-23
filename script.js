@@ -4,7 +4,11 @@ let pavlushi = 0;
 let history = [];
 let isLoading = true;
 let db = null;
-let userId = 'family_child_1';
+// Константа флага пользователя - для разных детей используйте разные флаги
+const USER_FLAG = 'Nestor'; // Для других детей: 'Ksusha', 'Vadimus' и т.д.
+
+// ID пользователя включает флаг для уникальности
+let userId = `family_child_${USER_FLAG.toLowerCase()}`;
 
 // ГЛОБАЛЬНЫЕ ФУНКЦИИ ДЛЯ HTML onclick - ОБЪЯВЛЯЕМ СРАЗУ!
 
@@ -260,6 +264,16 @@ function startDataListenerWithTimeout() {
       if (docSnapshot.exists) {
         const data = docSnapshot.data();
         
+        // ВАЖНО: Проверяем, что данные принадлежат текущему пользователю
+        if (data.userFlag !== USER_FLAG) {
+          console.error(`❌ Несоответствие флага пользователя! Ожидался: ${USER_FLAG}, получен: ${data.userFlag}`);
+          console.log('👶 Создаем нового пользователя с корректным флагом');
+          createNewUser();
+          updateSyncStatus('synced', '☁️ Новый профиль создан');
+          isLoading = false;
+          return;
+        }
+        
         // Проверяем, изменились ли данные
         const newMamcoins = data.mamcoins || 0;
         const newPavlushi = data.pavlushi || 0;
@@ -273,7 +287,7 @@ function startDataListenerWithTimeout() {
           pavlushi = newPavlushi;
           history = newHistory;
           
-          console.log(`💰 Синхронизировано с Firebase: ${mamcoins} мамкоинов, ${pavlushi} павлушей`);
+          console.log(`💰 Синхронизировано с Firebase (${USER_FLAG}): ${mamcoins} мамкоинов, ${pavlushi} павлушей`);
           
           // Обновляем localStorage для быстрого доступа в следующий раз
           saveToLocalStorage();
@@ -284,7 +298,7 @@ function startDataListenerWithTimeout() {
         updateSyncStatus('synced', '☁️ Синхронизировано');
         
       } else {
-        console.log('👶 Создаем нового пользователя');
+        console.log(`👶 Создаем нового пользователя с флагом: ${USER_FLAG}`);
         createNewUser();
         updateSyncStatus('synced', '☁️ Новый профиль создан');
       }
@@ -316,13 +330,14 @@ function createNewUser() {
     const userDocRef = db.collection('users').doc(userId);
     
     userDocRef.set({
+      userFlag: USER_FLAG,
       mamcoins: mamcoins,
       pavlushi: pavlushi,
       history: history,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       lastActive: firebase.firestore.FieldValue.serverTimestamp(),
     }).then(() => {
-      console.log('✅ Новый пользователь создан в Firebase');
+      console.log(`✅ Новый пользователь создан в Firebase с флагом: ${USER_FLAG}`);
     }).catch((error) => {
       console.error('❌ Ошибка создания пользователя:', error);
     });
@@ -348,12 +363,13 @@ function saveToFirebase() {
     
     // Неблокирующее сохранение в фоне
     userDocRef.update({
+      userFlag: USER_FLAG,
       mamcoins: mamcoins,
       pavlushi: pavlushi,
       history: history,
       lastActive: firebase.firestore.FieldValue.serverTimestamp(),
     }).then(() => {
-      console.log(`💾 Синхронизировано с Firebase: ${mamcoins} мамкоинов, ${pavlushi} павлушей`);
+      console.log(`💾 Синхронизировано с Firebase (${USER_FLAG}): ${mamcoins} мамкоинов, ${pavlushi} павлушей`);
       updateSyncStatus('synced', '☁️ Синхронизировано');
     }).catch((error) => {
       console.error('❌ Ошибка синхронизации с Firebase:', error);
@@ -367,11 +383,11 @@ function saveToFirebase() {
   }
 }
 
-// Fallback методы для localStorage
+// Fallback методы для localStorage с учетом флага пользователя
 function loadFromLocalStorage() {
-  const savedMamcoins = localStorage.getItem('mamcoins');
-  const savedPavlushi = localStorage.getItem('pavlushi');
-  const savedHistory = localStorage.getItem('history');
+  const savedMamcoins = localStorage.getItem(`mamcoins_${USER_FLAG}`);
+  const savedPavlushi = localStorage.getItem(`pavlushi_${USER_FLAG}`);
+  const savedHistory = localStorage.getItem(`history_${USER_FLAG}`);
 
   if (savedMamcoins !== null) {
     mamcoins = parseInt(savedMamcoins) || 0;
@@ -389,15 +405,15 @@ function loadFromLocalStorage() {
     }
   }
 
-  console.log(`📱 Загружено из localStorage: ${mamcoins} мамкоинов, ${pavlushi} павлушей`);
+  console.log(`📱 Загружено из localStorage (${USER_FLAG}): ${mamcoins} мамкоинов, ${pavlushi} павлушей`);
 }
 
 function saveToLocalStorage() {
-  localStorage.setItem('mamcoins', mamcoins.toString());
-  localStorage.setItem('pavlushi', pavlushi.toString());
-  localStorage.setItem('history', JSON.stringify(history));
+  localStorage.setItem(`mamcoins_${USER_FLAG}`, mamcoins.toString());
+  localStorage.setItem(`pavlushi_${USER_FLAG}`, pavlushi.toString());
+  localStorage.setItem(`history_${USER_FLAG}`, JSON.stringify(history));
   
-  console.log(`📱 Сохранено в localStorage: ${mamcoins} мамкоинов, ${pavlushi} павлушей`);
+  console.log(`📱 Сохранено в localStorage (${USER_FLAG}): ${mamcoins} мамкоинов, ${pavlushi} павлушей`);
 }
 
 // Обновление отображения
@@ -478,6 +494,8 @@ window.onclick = function (event) {
 // Функции для отладки
 window.mamcoinsDebug = {
   showData: () => console.log({ 
+    userFlag: USER_FLAG,
+    userId: userId,
     mamcoins, 
     pavlushi, 
     history: history.slice(0, 5),
@@ -523,6 +541,7 @@ window.mamcoinsDebug = {
     console.log('🔥 Тестируем Firebase подключение...');
     console.log('Firebase app:', typeof firebase !== 'undefined' ? '✅ Загружен' : '❌ Не загружен');
     console.log('Firestore:', db ? '✅ Подключен' : '❌ Не подключен');
+    console.log('User Flag:', USER_FLAG);
     console.log('User ID:', userId);
     console.log('Loading state:', isLoading ? 'Загружается...' : 'Готов');
   },
@@ -532,6 +551,46 @@ window.mamcoinsDebug = {
       const el = document.getElementById(id);
       console.log(`${id}:`, el ? '✅ Найден' : '❌ НЕ найден');
     });
+  },
+  showAllUsers: () => {
+    console.log('👥 Все пользователи в localStorage:');
+    const allKeys = Object.keys(localStorage);
+    const userFlags = new Set();
+    
+    allKeys.forEach(key => {
+      if (key.startsWith('mamcoins_') || key.startsWith('pavlushi_') || key.startsWith('history_')) {
+        const flag = key.split('_')[1];
+        userFlags.add(flag);
+      }
+    });
+    
+    if (userFlags.size === 0) {
+      console.log('Нет сохраненных пользователей');
+      return;
+    }
+    
+    userFlags.forEach(flag => {
+      const mamcoins = localStorage.getItem(`mamcoins_${flag}`) || '0';
+      const pavlushi = localStorage.getItem(`pavlushi_${flag}`) || '0';
+      const history = localStorage.getItem(`history_${flag}`);
+      let historyCount = 0;
+      try {
+        historyCount = history ? JSON.parse(history).length : 0;
+      } catch (e) {
+        historyCount = 0;
+      }
+      
+      console.log(`🦊 ${flag}: ${mamcoins} мамкоинов, ${pavlushi} павлушей, ${historyCount} записей истории`);
+    });
+  },
+  switchUser: (newFlag) => {
+    if (!newFlag) {
+      console.log('❌ Необходимо указать флаг пользователя (например: "Ksusha")');
+      return;
+    }
+    console.log(`🔄 Переключение на пользователя: ${newFlag}`);
+    console.log('⚠️ Для переключения пользователя измените константу USER_FLAG в коде и перезагрузите страницу');
+    console.log(`Установите: const USER_FLAG = '${newFlag}';`);
   }
 };
 
@@ -565,4 +624,4 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 });
 
-console.log('🦊 Система мамкоинов с Firebase v8 готова! Команды отладки: window.mamcoinsDebug'); 
+console.log(`🦊 Система мамкоинов для ${USER_FLAG} с Firebase v8 готова! Команды отладки: window.mamcoinsDebug`); 
