@@ -242,10 +242,11 @@ function initializeFirebase() {
   }
 }
 
-// Слушатель изменений данных Firebase с таймаутом
+// Слушатель изменений данных Firebase с таймаутом и фильтрацией по флагу
 function startDataListenerWithTimeout() {
   try {
-    const userDocRef = db.collection('users').doc(userId);
+    // Используем query для фильтрации данных по userFlag
+    const usersQuery = db.collection('users').where('userFlag', '==', USER_FLAG);
     
     // Устанавливаем таймаут на подключение к Firebase
     let syncTimeout = setTimeout(() => {
@@ -256,18 +257,28 @@ function startDataListenerWithTimeout() {
       loadHistory();
     }, 3000); // 3 секунды таймаут
     
-    // Слушаем изменения в реальном времени
-    userDocRef.onSnapshot((docSnapshot) => {
+    // Слушаем изменения в реальном времени с фильтрацией по флагу
+    usersQuery.onSnapshot((querySnapshot) => {
       // Отменяем таймаут - Firebase загрузился
       clearTimeout(syncTimeout);
       
-      if (docSnapshot.exists) {
+      console.log(`🔍 Найдено документов с флагом ${USER_FLAG}: ${querySnapshot.size}`);
+      
+      if (!querySnapshot.empty) {
+        // Берем первый (и должен быть единственный) документ с нашим флагом
+        const docSnapshot = querySnapshot.docs[0];
         const data = docSnapshot.data();
         
-        // ВАЖНО: Проверяем, что данные принадлежат текущему пользователю
+        console.log(`📥 Загружены данные для пользователя ${USER_FLAG}:`, {
+          userFlag: data.userFlag,
+          mamcoins: data.mamcoins,
+          pavlushi: data.pavlushi,
+          historyCount: (data.history || []).length
+        });
+        
+        // Дополнительная проверка флага (на всякий случай)
         if (data.userFlag !== USER_FLAG) {
-          console.error(`❌ Несоответствие флага пользователя! Ожидался: ${USER_FLAG}, получен: ${data.userFlag}`);
-          console.log('👶 Создаем нового пользователя с корректным флагом');
+          console.error(`❌ Несоответствие флага! Ожидался: ${USER_FLAG}, получен: ${data.userFlag}`);
           createNewUser();
           updateSyncStatus('synced', '☁️ Новый профиль создан');
           isLoading = false;
@@ -298,7 +309,7 @@ function startDataListenerWithTimeout() {
         updateSyncStatus('synced', '☁️ Синхронизировано');
         
       } else {
-        console.log(`👶 Создаем нового пользователя с флагом: ${USER_FLAG}`);
+        console.log(`👶 Нет данных для пользователя ${USER_FLAG}, создаем нового`);
         createNewUser();
         updateSyncStatus('synced', '☁️ Новый профиль создан');
       }
@@ -327,16 +338,22 @@ function startDataListenerWithTimeout() {
 // Создание нового пользователя в Firebase (неблокирующее)
 function createNewUser() {
   try {
+    // Создаем документ с уникальным ID, но обязательно с флагом пользователя
     const userDocRef = db.collection('users').doc(userId);
     
-    userDocRef.set({
+    const userData = {
       userFlag: USER_FLAG,
+      userId: userId,
       mamcoins: mamcoins,
       pavlushi: pavlushi,
       history: history,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       lastActive: firebase.firestore.FieldValue.serverTimestamp(),
-    }).then(() => {
+    };
+    
+    console.log(`📝 Создаем нового пользователя с данными:`, userData);
+    
+    userDocRef.set(userData).then(() => {
       console.log(`✅ Новый пользователь создан в Firebase с флагом: ${USER_FLAG}`);
     }).catch((error) => {
       console.error('❌ Ошибка создания пользователя:', error);
@@ -361,14 +378,24 @@ function saveToFirebase() {
   try {
     const userDocRef = db.collection('users').doc(userId);
     
-    // Неблокирующее сохранение в фоне
-    userDocRef.update({
+    const updateData = {
       userFlag: USER_FLAG,
+      userId: userId,
       mamcoins: mamcoins,
       pavlushi: pavlushi,
       history: history,
       lastActive: firebase.firestore.FieldValue.serverTimestamp(),
-    }).then(() => {
+    };
+    
+    console.log(`💾 Сохраняем данные для ${USER_FLAG}:`, {
+      userFlag: USER_FLAG,
+      mamcoins: mamcoins,
+      pavlushi: pavlushi,
+      historyCount: history.length
+    });
+    
+    // Используем set с merge, чтобы создать документ если его нет, или обновить существующий
+    userDocRef.set(updateData, { merge: true }).then(() => {
       console.log(`💾 Синхронизировано с Firebase (${USER_FLAG}): ${mamcoins} мамкоинов, ${pavlushi} павлушей`);
       updateSyncStatus('synced', '☁️ Синхронизировано');
     }).catch((error) => {
@@ -591,6 +618,66 @@ window.mamcoinsDebug = {
     console.log(`🔄 Переключение на пользователя: ${newFlag}`);
     console.log('⚠️ Для переключения пользователя измените константу USER_FLAG в коде и перезагрузите страницу');
     console.log(`Установите: const USER_FLAG = '${newFlag}';`);
+  },
+  showFirebaseUsers: async () => {
+    if (!db) {
+      console.log('❌ Firebase не подключен');
+      return;
+    }
+    
+    try {
+      console.log('🔥 Получаем всех пользователей из Firebase...');
+      const snapshot = await db.collection('users').get();
+      
+      if (snapshot.empty) {
+        console.log('📭 Нет пользователей в Firebase');
+        return;
+      }
+      
+      console.log(`👥 Найдено пользователей в Firebase: ${snapshot.size}`);
+      
+      snapshot.forEach((doc) => {
+        const data = doc.data();
+        console.log(`🦊 ${data.userFlag || 'НЕТ ФЛАГА'} (ID: ${doc.id}): ${data.mamcoins || 0} мамкоинов, ${data.pavlushi || 0} павлушей, ${(data.history || []).length} записей истории`);
+      });
+      
+    } catch (error) {
+      console.error('❌ Ошибка получения данных из Firebase:', error);
+    }
+  },
+  showCurrentUserFirebase: async () => {
+    if (!db) {
+      console.log('❌ Firebase не подключен');
+      return;
+    }
+    
+    try {
+      console.log(`🔍 Ищем данные для пользователя ${USER_FLAG} в Firebase...`);
+      const snapshot = await db.collection('users').where('userFlag', '==', USER_FLAG).get();
+      
+      if (snapshot.empty) {
+        console.log(`📭 Нет данных для пользователя ${USER_FLAG} в Firebase`);
+        return;
+      }
+      
+      console.log(`📥 Найдено документов для ${USER_FLAG}: ${snapshot.size}`);
+      
+      snapshot.forEach((doc) => {
+        const data = doc.data();
+        console.log(`📊 Данные ${USER_FLAG} в Firebase:`, {
+          documentId: doc.id,
+          userFlag: data.userFlag,
+          mamcoins: data.mamcoins,
+          pavlushi: data.pavlushi,
+          historyCount: (data.history || []).length,
+          createdAt: data.createdAt,
+          lastActive: data.lastActive
+        });
+      });
+      
+    } catch (error) {
+      console.error('❌ Ошибка получения данных из Firebase:', error);
+    }
   }
 };
 
